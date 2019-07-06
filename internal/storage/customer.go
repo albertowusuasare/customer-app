@@ -1,10 +1,10 @@
 package storage
 
 import (
-	"customer-app/internal/adding"
-	"customer-app/internal/retrieving"
-	"customer-app/internal/updating"
-	"customer-app/internal/uuid"
+	"github.com/albertowusuasare/customer-app/internal/adding"
+	"github.com/albertowusuasare/customer-app/internal/retrieving"
+	"github.com/albertowusuasare/customer-app/internal/updating"
+	"github.com/albertowusuasare/customer-app/internal/uuid"
 )
 
 type InsertCustomerFunc func(unPersistedCustomer adding.UnPersistedCustomer, genUUIDStr uuid.GenFunc) adding.PersistedCustomer

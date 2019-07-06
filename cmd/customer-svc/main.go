@@ -1,11 +1,12 @@
 package main
 
 import (
-	"customer-app/cmd/customer-svc/handler"
-	"customer-app/cmd/customer-svc/pkg"
 	"fmt"
 	"log"
 	"net/http"
+
+	"github.com/albertowusuasare/customer-app/cmd/customer-svc/handler"
+	"github.com/albertowusuasare/customer-app/cmd/customer-svc/pkg"
 )
 
 func main() {

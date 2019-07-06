@@ -1,10 +1,13 @@
 package workflow
 
 import (
-	"customer-app/internal/adding"
-	"customer-app/internal/msg"
-	"customer-app/internal/storage"
-	"customer-app/internal/uuid"
+	"github.com/albertowusuasare/customer-app/internal/msg"
+
+	"github.com/albertowusuasare/customer-app/internal/uuid"
+
+	"github.com/albertowusuasare/customer-app/internal/storage"
+
+	"github.com/albertowusuasare/customer-app/internal/adding"
 )
 
 type CreateFunc func(r adding.Request) adding.PersistedCustomer

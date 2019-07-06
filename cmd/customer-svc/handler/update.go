@@ -1,11 +1,12 @@
 package handler
 
 import (
-	"customer-app/internal/updating"
-	"customer-app/internal/workflow"
 	"encoding/json"
 	"log"
 	"net/http"
+
+	"github.com/albertowusuasare/customer-app/internal/updating"
+	"github.com/albertowusuasare/customer-app/internal/workflow"
 )
 
 type UpdateHandler struct {

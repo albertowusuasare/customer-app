@@ -1,27 +1,28 @@
 package handler
 
 import (
-	"customer-app/internal/adding"
-	"customer-app/internal/workflow"
 	"encoding/json"
 	"net/http"
+
+	"github.com/albertowusuasare/customer-app/internal/adding"
+	"github.com/albertowusuasare/customer-app/internal/workflow"
 )
 
 type CreateRequestDTO struct {
 	FirstName   string `json:"firstName"`
 	LastName    string `json:"lastName"`
-	NationalId  string `json:"nationalId"`
+	NationalID  string `json:"nationalId"`
 	PhoneNumber string `json:"phoneNumber"`
-	AccountId   string `json:"accountId"`
+	AccountID   string `json:"accountId"`
 }
 
 type CreateResponseDTO struct {
-	CustomerId  string `json:"customerId"`
+	CustomerID  string `json:"customerId"`
 	FirstName   string `json:"firstName"`
 	LastName    string `json:"lastName"`
-	NationalId  string `json:"nationalId"`
+	NationalID  string `json:"nationalId"`
 	PhoneNumber string `json:"phoneNumber"`
-	AccountId   string `json:"accountId"`
+	AccountID   string `json:"accountId"`
 }
 
 type CreateHandler struct {
@@ -46,19 +47,19 @@ func createRequestFromCreateRequestDTO(dto CreateRequestDTO) adding.Request {
 	return adding.Request{
 		FirstName:   dto.FirstName,
 		LastName:    dto.LastName,
-		NationalId:  dto.NationalId,
-		PhoneNumber: dto.NationalId,
-		AccountId:   dto.AccountId,
+		NationalId:  dto.NationalID,
+		PhoneNumber: dto.PhoneNumber,
+		AccountId:   dto.AccountID,
 	}
 }
 
 func createResponseDTOFromPersistedCustomer(peristedCustomer adding.PersistedCustomer) CreateResponseDTO {
 	return CreateResponseDTO{
-		CustomerId:  peristedCustomer.CustomerId,
+		CustomerID:  peristedCustomer.CustomerId,
 		FirstName:   peristedCustomer.FirstName,
 		LastName:    peristedCustomer.LastName,
-		NationalId:  peristedCustomer.NationalId,
+		NationalID:  peristedCustomer.NationalId,
 		PhoneNumber: peristedCustomer.PhoneNumber,
-		AccountId:   peristedCustomer.AccountId,
+		AccountID:   peristedCustomer.AccountId,
 	}
 }

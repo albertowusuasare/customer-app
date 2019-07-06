@@ -1,20 +1,21 @@
 package handler
 
 import (
-	"customer-app/internal/retrieving"
-	"customer-app/internal/workflow"
 	"encoding/json"
 	"log"
 	"net/http"
+
+	"github.com/albertowusuasare/customer-app/internal/retrieving"
+	"github.com/albertowusuasare/customer-app/internal/workflow"
 )
 
 type CustomerRetrieveResponseDTO struct {
-	CustomerId       string `json:"customerId"`
+	CustomerID       string `json:"customerId"`
 	FirstName        string `json:"firstName"`
 	LastName         string `json:"lastName"`
-	NationalId       string `json:"nationalId"`
+	NationalID       string `json:"nationalId"`
 	PhoneNumber      string `json:"phoneNumber"`
-	AccountId        string `json:"accountId"`
+	AccountID        string `json:"accountId"`
 	LastModifiedTime string `json:"lastModifiedTime"`
 	CreatedTime      string `json:"createdTime"`
 	Version          int    `json:"version"`
@@ -55,12 +56,12 @@ func customerRetrieveResponseDTOsFromCustomers(customers []retrieving.Customer) 
 
 func customerRetrieveResponseDTOFromCustomer(customer retrieving.Customer) CustomerRetrieveResponseDTO {
 	return CustomerRetrieveResponseDTO{
-		CustomerId:       customer.CustomerId,
+		CustomerID:       customer.CustomerId,
 		FirstName:        customer.FirstName,
 		LastName:         customer.LastName,
-		NationalId:       customer.NationalId,
+		NationalID:       customer.NationalId,
 		PhoneNumber:      customer.PhoneNumber,
-		AccountId:        customer.AccountId,
+		AccountID:        customer.AccountId,
 		LastModifiedTime: customer.LastModifiedTime,
 		CreatedTime:      customer.CreatedTime,
 		Version:          customer.Version,

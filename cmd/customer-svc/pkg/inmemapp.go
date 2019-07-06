@@ -1,12 +1,12 @@
 package pkg
 
 import (
-	"customer-app/internal/adding"
-	"customer-app/internal/app"
-	queue "customer-app/internal/msg/inmem"
-	"customer-app/internal/storage/inmem"
-	"customer-app/internal/uuid"
-	"customer-app/internal/workflow"
+	"github.com/albertowusuasare/customer-app/internal/adding"
+	"github.com/albertowusuasare/customer-app/internal/app"
+	queue "github.com/albertowusuasare/customer-app/internal/msg/inmem"
+	"github.com/albertowusuasare/customer-app/internal/storage/inmem"
+	"github.com/albertowusuasare/customer-app/internal/uuid"
+	"github.com/albertowusuasare/customer-app/internal/workflow"
 )
 
 type CustomerAppFunc func() app.Customer

@@ -1,8 +1,9 @@
 package handler
 
 import (
-	"customer-app/internal/app"
 	"net/http"
+
+	"github.com/albertowusuasare/customer-app/internal/app"
 )
 
 func Handle(app app.Customer) http.Handler {

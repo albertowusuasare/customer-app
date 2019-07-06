@@ -1,9 +1,11 @@
 package workflow
 
 import (
-	"customer-app/internal/msg"
-	"customer-app/internal/storage"
 	"testing"
+
+	"github.com/albertowusuasare/customer-app/internal/storage"
+
+	"github.com/albertowusuasare/customer-app/internal/msg"
 )
 
 func TestRemove(t *testing.T) {

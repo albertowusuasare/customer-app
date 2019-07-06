@@ -1,10 +1,11 @@
 package inmem
 
 import (
-	"customer-app/internal/adding"
-	"customer-app/internal/msg"
-	"customer-app/internal/updating"
 	"log"
+
+	"github.com/albertowusuasare/customer-app/internal/adding"
+	"github.com/albertowusuasare/customer-app/internal/msg"
+	"github.com/albertowusuasare/customer-app/internal/updating"
 )
 
 func CustomerAddedPublisher() msg.CustomerAddedPublisherFunc {

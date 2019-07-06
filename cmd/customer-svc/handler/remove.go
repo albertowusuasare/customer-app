@@ -1,8 +1,9 @@
 package handler
 
 import (
-	"customer-app/internal/workflow"
 	"net/http"
+
+	"github.com/albertowusuasare/customer-app/internal/workflow"
 )
 
 type RemoveHandler struct {

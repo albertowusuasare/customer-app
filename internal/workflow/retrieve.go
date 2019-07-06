@@ -1,8 +1,8 @@
 package workflow
 
 import (
-	"customer-app/internal/retrieving"
-	"customer-app/internal/storage"
+	"github.com/albertowusuasare/customer-app/internal/retrieving"
+	"github.com/albertowusuasare/customer-app/internal/storage"
 )
 
 type RetrieveSingleFunc func(customerId string) retrieving.Customer

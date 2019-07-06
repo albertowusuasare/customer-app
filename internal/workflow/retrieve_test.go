@@ -1,10 +1,11 @@
 package workflow
 
 import (
-	"customer-app/internal/retrieving"
-	"customer-app/internal/storage"
 	"reflect"
 	"testing"
+
+	"github.com/albertowusuasare/customer-app/internal/retrieving"
+	"github.com/albertowusuasare/customer-app/internal/storage"
 )
 
 func TestRetrieveOne(t *testing.T) {

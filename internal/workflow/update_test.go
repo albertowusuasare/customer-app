@@ -1,10 +1,11 @@
 package workflow
 
 import (
-	"customer-app/internal/msg"
-	"customer-app/internal/storage"
-	"customer-app/internal/updating"
 	"testing"
+
+	"github.com/albertowusuasare/customer-app/internal/msg"
+	"github.com/albertowusuasare/customer-app/internal/storage"
+	"github.com/albertowusuasare/customer-app/internal/updating"
 )
 
 func TestUpdate(t *testing.T) {

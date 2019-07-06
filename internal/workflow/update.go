@@ -1,9 +1,9 @@
 package workflow
 
 import (
-	"customer-app/internal/msg"
-	"customer-app/internal/storage"
-	"customer-app/internal/updating"
+	"github.com/albertowusuasare/customer-app/internal/msg"
+	"github.com/albertowusuasare/customer-app/internal/storage"
+	"github.com/albertowusuasare/customer-app/internal/updating"
 )
 
 type UpdateFunc func(request updating.Request) updating.UpdatedCustomer

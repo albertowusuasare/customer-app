@@ -1,14 +1,15 @@
-package test
+package main
 
 import (
 	"bytes"
-	"customer-app/cmd/customer-svc/handler"
-	"customer-app/cmd/customer-svc/pkg"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"net/http/httptest"
 	"testing"
+
+	"github.com/albertowusuasare/customer-app/cmd/customer-svc/handler"
+	"github.com/albertowusuasare/customer-app/cmd/customer-svc/pkg"
 )
 
 func TestCreateAPI(t *testing.T) {
@@ -16,7 +17,7 @@ func TestCreateAPI(t *testing.T) {
 	ts := httptest.NewServer(handler.Handle(app))
 	defer ts.Close()
 
-	requestBody, _ := ioutil.ReadFile("create-request.json")
+	requestBody, _ := ioutil.ReadFile("testdata/create-request.json")
 	buffer := bytes.NewBuffer(requestBody)
 	res, err := http.Post(ts.URL+"/customers/", "application/json", buffer)
 	if err != nil {

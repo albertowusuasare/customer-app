@@ -1,8 +1,8 @@
 package msg
 
 import (
-	"customer-app/internal/adding"
-	"customer-app/internal/updating"
+	"github.com/albertowusuasare/customer-app/internal/adding"
+	"github.com/albertowusuasare/customer-app/internal/updating"
 )
 
 type Response struct {

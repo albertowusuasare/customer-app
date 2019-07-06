@@ -1,14 +1,15 @@
 package inmem
 
 import (
-	"customer-app/internal/adding"
-	"customer-app/internal/retrieving"
-	"customer-app/internal/storage"
-	"customer-app/internal/updating"
-	"customer-app/internal/uuid"
 	"fmt"
 	"log"
 	"time"
+
+	"github.com/albertowusuasare/customer-app/internal/adding"
+	"github.com/albertowusuasare/customer-app/internal/retrieving"
+	"github.com/albertowusuasare/customer-app/internal/storage"
+	"github.com/albertowusuasare/customer-app/internal/updating"
+	"github.com/albertowusuasare/customer-app/internal/uuid"
 )
 
 //Collection

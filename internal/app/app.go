@@ -1,7 +1,7 @@
 package app
 
 import (
-	"customer-app/internal/workflow"
+	"github.com/albertowusuasare/customer-app/internal/workflow"
 )
 
 type Customer struct {
