@@ -9,6 +9,7 @@ func Gen() GenFunc {
 	}
 }
 
+// IsValidUUID checks if a given string is a valid v4 UUID
 func IsValidUUID(u string) bool {
 	_, err := uuid.Parse(u)
 	return err == nil
