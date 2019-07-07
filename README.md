@@ -8,5 +8,5 @@ A simple CRUD application to aid in learning go
 ### Running all tests
 ``` go test -v github.com/albertowusuasare/customer-app/... ```
 
-### Running integration test
+### Running integration tests
 ```go test -v github.com/albertowusuasare/customer-app/cmd/customer-svc/test/integration```
