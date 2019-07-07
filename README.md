@@ -10,3 +10,6 @@ A simple CRUD application to aid in learning go
 
 ### Running integration tests
 ```go test -v github.com/albertowusuasare/customer-app/cmd/customer-svc/test/integration```
+
+### Retrieving go report card
+``` https://goreportcard.com/report/github.com/albertowusuasare/customer-app```
