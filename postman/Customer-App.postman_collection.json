@@ -1,0 +1,150 @@
+{
+	"info": {
+		"_postman_id": "04d99279-c9e7-452c-b6bd-173dff24fa18",
+		"name": "Customer-App",
+		"description": "Simple application exposing an API for CRUD operations on a customer",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create customer",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"firstName\": \"Evelyn\",\n\t\"lastName\": \"Nkooyooyo\",\n\t\"nationalId\": \"12345779\",\n\t\"phoneNumber\": \"82876337\",\n\t\"accountId\": \"{{$guid}}\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5090/customers/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5090",
+					"path": [
+						"customers",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get customers",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:5090/customers/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5090",
+					"path": [
+						"customers",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Customer",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:5090/customers/12d05013-aa55-417d-a542-b716e67b4ff6",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5090",
+					"path": [
+						"customers",
+						"12d05013-aa55-417d-a542-b716e67b4ff6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update customer",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstName\": \"Evelyn\",\n    \"lastName\": \"Owusu-Asare\",\n    \"nationalId\": \"12345779\",\n    \"phoneNumber\": \"12345779\",\n    \"accountId\": \"b0c7f232-e6b4-45e8-a1cf-3fbad9ff30f0\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5090/customers/12d05013-aa55-417d-a542-b716e67b4ff6",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5090",
+					"path": [
+						"customers",
+						"12d05013-aa55-417d-a542-b716e67b4ff6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Remove customer",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:5090/customers/12d05013-aa55-417d-a542-b716e67b4ff6",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5090",
+					"path": [
+						"customers",
+						"12d05013-aa55-417d-a542-b716e67b4ff6"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
