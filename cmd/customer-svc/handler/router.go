@@ -9,6 +9,7 @@ import (
 	"github.com/google/uuid"
 )
 
+// Router creates an entry point http router based on all the application's handlers
 func Router(
 	customerCreateHandler CreateHandler,
 	retrieveOneHandler RetrieveOneHandler,

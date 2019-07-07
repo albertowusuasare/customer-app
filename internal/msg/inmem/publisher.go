@@ -8,6 +8,7 @@ import (
 	"github.com/albertowusuasare/customer-app/internal/updating"
 )
 
+// CustomerAddedPublisher returns an in memory customer add publisher
 func CustomerAddedPublisher() msg.CustomerAddedPublisherFunc {
 	return func(c adding.PersistedCustomer) msg.Response {
 		publisher := func(messageId string) {
@@ -17,6 +18,7 @@ func CustomerAddedPublisher() msg.CustomerAddedPublisherFunc {
 	}
 }
 
+// CustomerUpdatedPublisher returns an in memory customer updated publisher
 func CustomerUpdatedPublisher() msg.CustomerUpdatedPublisherFunc {
 	return func(c updating.UpdatedCustomer) msg.Response {
 		publisher := func(messageId string) {
@@ -26,6 +28,7 @@ func CustomerUpdatedPublisher() msg.CustomerUpdatedPublisherFunc {
 	}
 }
 
+// CustomerRemovedPublisher returns an in memory customer removed publisher
 func CustomerRemovedPublisher() msg.CustomerRemovedPublisherFunc {
 	return func(id string) msg.Response {
 		publisher := func(messageId string) {

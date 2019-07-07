@@ -9,8 +9,10 @@ import (
 	"github.com/albertowusuasare/customer-app/internal/workflow"
 )
 
+// CustomerAppFunc creates a new instance of the customer application
 type CustomerAppFunc func() app.Customer
 
+// InmemApp creates a customer app based on in memory data store
 func InmemApp() app.Customer {
 	createWf := workflow.Create(adding.RequestToUnPersistedCustomer, uuid.Gen(), inmem.InsertCustomer(), queue.CustomerAddedPublisher())
 	retrieveSingleWf := workflow.RetrieveOne(inmem.RetrieveCustomer())

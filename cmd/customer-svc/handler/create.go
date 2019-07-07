@@ -8,6 +8,7 @@ import (
 	"github.com/albertowusuasare/customer-app/internal/workflow"
 )
 
+// CreateRequestDTO represents the json structure for a customer create request
 type CreateRequestDTO struct {
 	FirstName   string `json:"firstName"`
 	LastName    string `json:"lastName"`
@@ -16,6 +17,7 @@ type CreateRequestDTO struct {
 	AccountID   string `json:"accountId"`
 }
 
+// CreateResponseDTO represents the json structure for a customer create response
 type CreateResponseDTO struct {
 	CustomerID  string `json:"customerId"`
 	FirstName   string `json:"firstName"`
@@ -25,10 +27,12 @@ type CreateResponseDTO struct {
 	AccountID   string `json:"accountId"`
 }
 
+// CreateHandler represents the http handler for a customer create http call
 type CreateHandler struct {
 	Workflow workflow.CreateFunc
 }
 
+// Handle allows the CreateHandler to act as an http call handler
 func (handler CreateHandler) Handle(w http.ResponseWriter, r *http.Request) {
 	decoder := json.NewDecoder(r.Body)
 	var requestDTO CreateRequestDTO

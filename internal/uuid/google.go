@@ -2,6 +2,7 @@ package uuid
 
 import "github.com/google/uuid"
 
+// Gen returns a google implementation of uuid generation
 func Gen() GenFunc {
 	return func() string {
 		return uuid.New().String()

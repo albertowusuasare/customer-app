@@ -8,16 +8,19 @@ import (
 	"github.com/google/uuid"
 )
 
+// An Envelope is a representation of  the data sent to a message broker for an event
 type Envelope struct {
 	Header Header
 	Body   []byte
 }
 
+// A Header is a representation of an event meta data.
 type Header struct {
 	Id        string
 	TimeStamp string
 }
 
+// CreateEnvelope creates an evelope for any data payload
 func CreateEnvelope(payload interface{}) Envelope {
 	header := Header{
 		Id:        uuid.New().String(),

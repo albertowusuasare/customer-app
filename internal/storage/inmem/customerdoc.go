@@ -12,7 +12,7 @@ import (
 	"github.com/albertowusuasare/customer-app/internal/uuid"
 )
 
-//Collection
+// CustomerDocument represents the database entity for a customer
 type CustomerDocument struct {
 	CustomerId       string
 	FirstName        string
@@ -27,7 +27,7 @@ type CustomerDocument struct {
 
 var customerCollection = map[string]CustomerDocument{}
 
-//Create
+//InsertCustomer returns an imemory implementation for customer inserts
 func InsertCustomer() storage.InsertCustomerFunc {
 	return func(customer adding.UnPersistedCustomer, genUUIDStr uuid.GenFunc) adding.PersistedCustomer {
 		customerDoc := customerDocumentFromUnPersistedCustomer(customer, genUUIDStr)
@@ -58,7 +58,7 @@ func customerDocumentFromUnPersistedCustomer(customer adding.UnPersistedCustomer
 	}
 }
 
-//Retrieve Customer
+// RetrieveCustomer returns an in memory implementation of customer retrieval
 func RetrieveCustomer() storage.RetrieveCustomerFunc {
 	return func(customerId string) retrieving.Customer {
 		log.Printf("Retrieving customerId=%s from the in memory database", customerId)
@@ -81,6 +81,7 @@ func customerFromCustomerDoc(customerDoc CustomerDocument) retrieving.Customer {
 	}
 }
 
+// RetrieveCustomers returns an in memory implementation of customers retrieval
 func RetrieveCustomers() storage.RetrieveCustomersFunc {
 	return func(request retrieving.MultiRequest) []retrieving.Customer {
 		customers := []retrieving.Customer{}
@@ -92,7 +93,7 @@ func RetrieveCustomers() storage.RetrieveCustomersFunc {
 	}
 }
 
-//Update Customer
+// UpdateCustomer returns an in memory implementation for customer updates
 func UpdateCustomer() storage.UpdateCustomerFunc {
 	return func(request updating.Request) updating.UpdatedCustomer {
 		piorDocument := customerCollection[request.CustomerId]
@@ -126,7 +127,7 @@ func UpdateCustomer() storage.UpdateCustomerFunc {
 	}
 }
 
-//Remove Customer
+//RemoveCustomer returns an in memory implementation of customer removal
 func RemoveCustomer() storage.RemoveCustomerFunc {
 	return func(customerId string) {
 		delete(customerCollection, customerId)

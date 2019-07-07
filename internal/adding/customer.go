@@ -1,5 +1,6 @@
 package adding
 
+// An UnPersistedCustomer is the value of a customer pre database persistence
 type UnPersistedCustomer struct {
 	FirstName   string
 	LastName    string
@@ -8,6 +9,7 @@ type UnPersistedCustomer struct {
 	AccountId   string
 }
 
+// A PersistedCustomer is the value of a customer post database persistence
 type PersistedCustomer struct {
 	CustomerId  string
 	FirstName   string

@@ -9,6 +9,7 @@ import (
 	"github.com/albertowusuasare/customer-app/internal/workflow"
 )
 
+// CustomerRetrieveResponseDTO represents the json structure for a customer retrieve response
 type CustomerRetrieveResponseDTO struct {
 	CustomerID       string `json:"customerId"`
 	FirstName        string `json:"firstName"`
@@ -21,14 +22,17 @@ type CustomerRetrieveResponseDTO struct {
 	Version          int    `json:"version"`
 }
 
+// RetrieveOneHandler represents the http handler for a single customer retrieve http call
 type RetrieveOneHandler struct {
 	Workflow workflow.RetrieveSingleFunc
 }
 
+// RetrieveMultiHandler represents the http handler for a multi customer retrieve http call
 type RetrieveMultiHandler struct {
 	Workflow workflow.RetrieveMultiFunc
 }
 
+// Handle allows the RetrieveOneHandler to act as an http call handler
 func (handler RetrieveOneHandler) Handle(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	customerId := RetrieveCustomerId(r)
@@ -37,6 +41,7 @@ func (handler RetrieveOneHandler) Handle(w http.ResponseWriter, r *http.Request)
 	json.NewEncoder(w).Encode(response)
 }
 
+// Handle allows the RetrieveMultiHandler to act as an http call handler
 func (handler RetrieveMultiHandler) Handle(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	request := retrieving.MultiRequest{}

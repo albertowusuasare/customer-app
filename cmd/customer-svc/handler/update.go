@@ -9,10 +9,12 @@ import (
 	"github.com/albertowusuasare/customer-app/internal/workflow"
 )
 
+// UpdateHandler represents the http handler for a customer update http call
 type UpdateHandler struct {
 	Workflow workflow.UpdateFunc
 }
 
+// UpdateRequestDTO represents the json structure for a customer update request
 type UpdateRequestDTO struct {
 	FirstName   string `json:"firstName"`
 	LastName    string `json:"lastName"`
@@ -20,6 +22,7 @@ type UpdateRequestDTO struct {
 	PhoneNumber string `json:"phoneNumer"`
 }
 
+// UpdateResponseDTO represents the json structure for a customer update response
 type UpdateResponseDTO struct {
 	CustomerId       string `json:"customerId"`
 	FirstName        string `json:"firstName"`
@@ -32,6 +35,7 @@ type UpdateResponseDTO struct {
 	Version          int    `json:"version"`
 }
 
+// Handle allows the UpdateHandler to act as an http call handler
 func (handler UpdateHandler) Handle(w http.ResponseWriter, r *http.Request) {
 	decoder := json.NewDecoder(r.Body)
 	var requestDTO UpdateRequestDTO

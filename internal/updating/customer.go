@@ -1,5 +1,6 @@
 package updating
 
+//UpdatedCustomer represents an updated customer in the datastore
 type UpdatedCustomer struct {
 	CustomerId       string
 	FirstName        string
