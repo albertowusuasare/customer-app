@@ -2,7 +2,6 @@ package integration
 
 import (
 	"bytes"
-	"encoding/json"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -38,9 +37,9 @@ func TestCreateAPI(t *testing.T) {
 
 func testExpectedResponse(t *testing.T, request []byte, response []byte) {
 	requestDTO := handler.CreateRequestDTO{}
-	unMarshal(request, &requestDTO)
+	UnMarshal(request, &requestDTO)
 	responseDTO := handler.CreateResponseDTO{}
-	unMarshal(response, &responseDTO)
+	UnMarshal(response, &responseDTO)
 
 	var responseFieldsTests = []struct {
 		fieldName,
@@ -98,11 +97,4 @@ func testExpectedResponse(t *testing.T, request []byte, response []byte) {
 			t.Errorf("CustomerID is not a valid v4 UUID. got %s", customerID)
 		}
 	})
-}
-
-func unMarshal(data []byte, value interface{}) {
-	err := json.Unmarshal(data, &value)
-	if err != nil {
-		log.Println(err)
-	}
 }
