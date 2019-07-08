@@ -9,15 +9,10 @@ language: go
 go:
   - 1.12.6
 
-# Only clone the most recent commit.
-git:
-  depth: 1
-
 
 # Don't email me the results of the test runs.
 notifications:
-  email: false
-
+  email: true
 
 # script always runs to completion (set +e). If we have linter issues AND a
 # failing test, we want to see both. Configure golangci-lint with a
