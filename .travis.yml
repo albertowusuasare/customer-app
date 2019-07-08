@@ -18,4 +18,5 @@ notifications:
 # failing test, we want to see both. Configure golangci-lint with a
 # .golangci.yml file at the top level of your repo.
 script:
+  - ./script/lint.sh
   - go test -v github.com/albertowusuasare/customer-app/...  # Run all the tests with the race detector enabled

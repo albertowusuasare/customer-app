@@ -2,6 +2,7 @@ package handler
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
 
 	"github.com/albertowusuasare/customer-app/internal/adding"
@@ -44,7 +45,10 @@ func (handler CreateHandler) Handle(w http.ResponseWriter, r *http.Request) {
 	createRequest := createRequestFromCreateRequestDTO(requestDTO)
 	peristedCustomer := handler.Workflow(createRequest)
 	response := createResponseDTOFromPersistedCustomer(peristedCustomer)
-	json.NewEncoder(w).Encode(response)
+	encodeErr := json.NewEncoder(w).Encode(response)
+	if encodeErr != nil {
+		log.Fatal(encodeErr)
+	}
 }
 
 func createRequestFromCreateRequestDTO(dto CreateRequestDTO) adding.Request {

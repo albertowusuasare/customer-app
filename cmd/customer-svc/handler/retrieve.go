@@ -38,7 +38,10 @@ func (handler RetrieveOneHandler) Handle(w http.ResponseWriter, r *http.Request)
 	customerId := RetrieveCustomerId(r)
 	customer := handler.Workflow(customerId)
 	response := customerRetrieveResponseDTOFromCustomer(customer)
-	json.NewEncoder(w).Encode(response)
+	encodeErr := json.NewEncoder(w).Encode(response)
+	if encodeErr != nil {
+		log.Fatal(encodeErr)
+	}
 }
 
 // Handle allows the RetrieveMultiHandler to act as an http call handler
@@ -48,7 +51,10 @@ func (handler RetrieveMultiHandler) Handle(w http.ResponseWriter, r *http.Reques
 	log.Printf("Retrieving customers for request=%+v", request)
 	customers := handler.Workflow(request)
 	response := customerRetrieveResponseDTOsFromCustomers(customers)
-	json.NewEncoder(w).Encode(response)
+	encodeErr := json.NewEncoder(w).Encode(response)
+	if encodeErr != nil {
+		log.Fatal(encodeErr)
+	}
 }
 
 func customerRetrieveResponseDTOsFromCustomers(customers []retrieving.Customer) []CustomerRetrieveResponseDTO {

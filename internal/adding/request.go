@@ -16,11 +16,5 @@ type RequestValidatorFunc func(r Request) (UnPersistedCustomer, error)
 
 // RequestToUnPersistedCustomer is the primary validator for incoming customer add requests.
 func RequestToUnPersistedCustomer(r Request) (UnPersistedCustomer, error) {
-	return UnPersistedCustomer{
-		FirstName:   r.FirstName,
-		LastName:    r.LastName,
-		NationalId:  r.NationalId,
-		PhoneNumber: r.PhoneNumber,
-		AccountId:   r.AccountId,
-	}, nil
+	return UnPersistedCustomer(r), nil
 }
