@@ -52,13 +52,7 @@ func newPersistedCustomer(id string, r adding.Request) adding.PersistedCustomer 
 
 func successRequestValidator() adding.RequestValidatorFunc {
 	return func(r adding.Request) (adding.UnPersistedCustomer, error) {
-		return adding.UnPersistedCustomer{
-			FirstName:   r.FirstName,
-			LastName:    r.LastName,
-			NationalId:  r.NationalId,
-			PhoneNumber: r.PhoneNumber,
-			AccountId:   r.AccountId,
-		}, nil
+		return adding.UnPersistedCustomer(r), nil
 	}
 }
 

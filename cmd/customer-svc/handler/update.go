@@ -49,7 +49,11 @@ func (handler UpdateHandler) Handle(w http.ResponseWriter, r *http.Request) {
 	log.Printf("Updating customer for request=%+v", request)
 	updatedCustomer := handler.Workflow(request)
 	response := updateResponseDTOFromUpdatedCustomer(updatedCustomer)
-	json.NewEncoder(w).Encode(response)
+	encodeErr := json.NewEncoder(w).Encode(response)
+	if encodeErr != nil {
+		log.Fatal(encodeErr)
+	}
+
 }
 
 func updateRequestFromUpdateRequestDTO(customerId string, dto UpdateRequestDTO) updating.Request {
