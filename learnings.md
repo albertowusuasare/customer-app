@@ -1,0 +1,23 @@
+### Major learning topics:
+- API Request Filtering in Go
+- Handling Configuration in Go
+-  Interface vs function types in Go
+- Primitive functional concepts in Go
+- Functional composition in Go
+- Package organization in Go
+- Integration testing in Go
+- Kafka and Go
+- Mongo and Go
+- Receivers vs functions in Go
+- Network protocol options and Go
+- Smart constructors in Go
+- Initial thoughts about Go: idiomatic Go 
+- Metrics and Go
+- Pass by reference vs pass by value
+- Pure vs Impure functions
+- Testing in Go: code coverage
+- Go report card
+- CiCd
+- Slack integration
+- Incident management
+- Git Flow
