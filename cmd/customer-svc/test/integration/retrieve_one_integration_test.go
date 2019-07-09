@@ -1,7 +1,6 @@
 package integration
 
 import (
-	"bytes"
 	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
@@ -17,7 +16,7 @@ func TestRetreiveOneAPI(t *testing.T) {
 	defer ts.Close()
 
 	//create a customer
-	existingCustomer := createCustomer(ts)
+	existingCustomer := CreateTestDataCustomer(ts)
 	customerID := existingCustomer.CustomerID
 
 	retrievedCustomer := retrieveCustomer(ts, customerID)
@@ -29,16 +28,6 @@ func TestRetreiveOneAPI(t *testing.T) {
 
 	testExpectedCustomerFieldsPresent(retrievedCustomer, t)
 
-}
-
-func createCustomer(ts *httptest.Server) handler.CreateResponseDTO {
-	requestBody, _ := ioutil.ReadFile("../data/create-request.json")
-	buffer := bytes.NewBuffer(requestBody)
-	res, _ := http.Post(ts.URL+"/customers/", "application/json", buffer)
-	response, _ := ioutil.ReadAll(res.Body)
-	responseDTO := handler.CreateResponseDTO{}
-	UnMarshal(response, &responseDTO)
-	return responseDTO
 }
 
 func retrieveCustomer(ts *httptest.Server, customerID string) handler.CustomerRetrieveResponseDTO {
