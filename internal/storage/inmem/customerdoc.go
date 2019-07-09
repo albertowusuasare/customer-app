@@ -60,10 +60,15 @@ func customerDocumentFromUnPersistedCustomer(customer adding.UnPersistedCustomer
 
 // RetrieveCustomer returns an in memory implementation of customer retrieval
 func RetrieveCustomer() storage.RetrieveCustomerFunc {
-	return func(customerId string) retrieving.Customer {
-		log.Printf("Retrieving customerId=%s from the in memory database", customerId)
-		customerDoc := customerCollection[customerId]
-		return customerFromCustomerDoc(customerDoc)
+	return func(customerID string) (*retrieving.Customer, error) {
+		log.Printf("Retrieving customerId=%s from the in memory database", customerID)
+		customerDoc, present := customerCollection[customerID]
+		if present {
+			customer := customerFromCustomerDoc(customerDoc)
+			return &customer, nil
+		}
+		log.Printf("CustomerId=%s record does not exist in document store", customerID)
+		return nil, retrieving.CustomerNonExistent{CustomerID: customerID}
 	}
 }
 
