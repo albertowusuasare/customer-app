@@ -20,7 +20,7 @@ type CreateRequestDTO struct {
 
 // CreateResponseDTO represents the json structure for a customer create response
 type CreateResponseDTO struct {
-	CustomerID  string `json:"customerId"`
+	CustomerID  string `json:"customerId"` //rename this ID?
 	FirstName   string `json:"firstName"`
 	LastName    string `json:"lastName"`
 	NationalID  string `json:"nationalId"`

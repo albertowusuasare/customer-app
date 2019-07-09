@@ -19,7 +19,7 @@ type UpdateRequestDTO struct {
 	FirstName   string `json:"firstName"`
 	LastName    string `json:"lastName"`
 	NationalId  string `json:"nationalId"`
-	PhoneNumber string `json:"phoneNumer"`
+	PhoneNumber string `json:"phoneNumber"`
 }
 
 // UpdateResponseDTO represents the json structure for a customer update response
