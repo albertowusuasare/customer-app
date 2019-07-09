@@ -22,6 +22,11 @@ type CustomerRetrieveResponseDTO struct {
 	Version          int    `json:"version"`
 }
 
+// CustomerRetrieveErrorDTO is the error body returned to the API caller when an error occurs
+type CustomerRetrieveErrorDTO struct {
+	Message string `json:"message"`
+}
+
 // RetrieveOneHandler represents the http handler for a single customer retrieve http call
 type RetrieveOneHandler struct {
 	Workflow workflow.RetrieveSingleFunc
@@ -35,12 +40,36 @@ type RetrieveMultiHandler struct {
 // Handle allows the RetrieveOneHandler to act as an http call handler
 func (handler RetrieveOneHandler) Handle(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	customerId := RetrieveCustomerId(r)
-	customer := handler.Workflow(customerId)
-	response := customerRetrieveResponseDTOFromCustomer(customer)
+	customerID := RetrieveCustomerId(r)
+	customer, err := handler.Workflow(customerID)
+	if err != nil {
+		handleRetrieveOneWorkflowError(err, w)
+		return
+	}
+	response := customerRetrieveResponseDTOFromCustomer(*customer)
 	encodeErr := json.NewEncoder(w).Encode(response)
 	if encodeErr != nil {
 		log.Fatal(encodeErr)
+	}
+}
+
+func handleRetrieveOneWorkflowError(err error, w http.ResponseWriter) {
+	switch err.(type) {
+	case retrieving.CustomerNonExistent:
+		{
+			w.WriteHeader(http.StatusNotFound)
+			errorDTO := CustomerRetrieveErrorDTO{err.Error()}
+			b, marshalErr := json.Marshal(errorDTO)
+			if marshalErr != nil {
+				log.Fatal(marshalErr)
+			}
+			_, wErr := w.Write(b)
+			if wErr != nil {
+				log.Fatal(wErr)
+			}
+		}
+	default:
+		log.Fatal(err)
 	}
 }
 

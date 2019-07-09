@@ -17,7 +17,7 @@ func InsertCustomer() storage.InsertCustomerFunc {
 
 // RetrieveCustomer returns a mongo implementation of customer retrieval
 func RetrieveCustomer() storage.RetrieveCustomerFunc {
-	return func(customerId string) retrieving.Customer {
+	return func(customerId string) (*retrieving.Customer, error) {
 		panic("Mongo retrieve not implemented yet")
 	}
 }
