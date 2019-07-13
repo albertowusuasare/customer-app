@@ -34,6 +34,10 @@ lint:
 .PHONY: sanity-check
 sanity-check: lint test
 
+.PHONY: int-test
+int-test:
+	go test -v github.com/albertowusuasare/customer-app/cmd/customer-svc/test/integration
+
 # Tagged Artifact build
 
 # For the purposes of deployments it is sometimes necessary to tag a built artifact. 
