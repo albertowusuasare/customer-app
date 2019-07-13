@@ -1,6 +1,11 @@
 ARTIFACT_ID := customer-svc
 .PHONY: all	
-all: install test run
+all: deps install test run
+
+.PHONY: deps 
+deps:
+	@echo "Fetching dependencies for project..."
+	go get -v ./...
 
 .PHONY: build
 build:
@@ -32,7 +37,7 @@ lint:
 	./script/lint.sh
 
 .PHONY: sanity-check
-sanity-check: lint test
+sanity-check: deps lint test
 
 .PHONY: int-test
 int-test:
