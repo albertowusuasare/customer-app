@@ -70,3 +70,29 @@ clean_tag:
 	@echo "Cleaning $(TAGGED_ARTIFACT) ..."
 	rm $(TAGGED_ARTIFACT)
 
+## Docker deploy: builds, tags a google container registry (gcr) tag and deploys the image to gcr
+.PHONY: docker_deploy
+docker_deploy: docker_build docker_tag docker_push
+
+## Docker build: builds a docker image with tag 'ARTIFACT_ID'
+.PHONY: docker_build
+docker_build:
+	@echo "Building docker image ..."
+	docker build --tag=$(ARTIFACT_ID) .
+
+.PHONY: docker_tag
+GCR_IMAGE_ID := gcr.io/onua-246719/$(ARTIFACT_ID):$(TAG)
+docker_tag:
+	@echo "Building docker gcr image ..."
+	docker tag $(ARTIFACT_ID) $(GCR_IMAGE_ID)
+
+.PHONY: docker_push
+docker_push:
+	@echo "Pushing image to google container registry ..."
+	gcloud auth configure-docker
+	docker push $(GCR_IMAGE_ID)
+
+.PHONY: docker_run
+docker_run:
+	@echo "Running docker ..."
+	docker run -p 5090:5090 $(GCR_IMAGE_ID)

@@ -4,11 +4,11 @@ A simple CRUD application to aid in learning go
 ### Running the app
 ``` make install run```
 
-### Build docker image
-``` docker build --rm -f "Dockerfile" -t customer-app:0.0.x .```
+### Deploy docker image to registry
+``` make docker_deploy ```
 
 ### Run docker app
-``` docker run -d  -p5090:5090 customer-app:0.0.x```
+``` make docker_run``
 
 ### Running all tests
 ``` make test```
