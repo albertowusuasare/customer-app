@@ -1,4 +1,5 @@
-# Dockerfile References: https://docs.docker.com/engine/reference/builder/
+# We use a multi step process to build the final image
+# Step 1: Executable build
 
 # Start from golang v1.11 base image
 FROM golang:1.12.6 as builder
@@ -13,15 +14,12 @@ WORKDIR $GOPATH/src/github.com/albertowusuasare/customer-app
 COPY . .
 
 # Download all the dependencies
-# https://stackoverflow.com/questions/28031603/what-do-three-dots-mean-in-go-command-line-invocations
 RUN go get -d -v ./...
 
 # Install the package
-RUN  CGO_ENABLED=0 GOOS=linux go install -v ./...
+RUN  CGO_ENABLED=0 GOOS=linux go build -v ./cmd/customer-svc
 
-
-### seond stage
-# deployment image
+# Step 2: Create deployment image
 FROM scratch
 
 # copy ca-certificates from builder
@@ -29,9 +27,9 @@ COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certifi
 
 WORKDIR /bin/
 
-COPY --from=builder /go/bin/customer-svc .
+COPY --from=builder go/src/github.com/albertowusuasare/customer-app/customer-svc .
 
-# This container exposes port 8080 to the outside world
+# This container exposes port 5090 to the outside world
 EXPOSE 5090
 
 # Run the executable
