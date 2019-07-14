@@ -8,7 +8,7 @@ A simple CRUD application to aid in learning go
 ``` make docker_deploy ```
 
 ### Run docker app
-``` make docker_run``
+``` make docker_run ```
 
 ### Running all tests
 ``` make test```
