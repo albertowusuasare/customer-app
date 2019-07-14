@@ -70,3 +70,15 @@ clean_tag:
 	@echo "Cleaning $(TAGGED_ARTIFACT) ..."
 	rm $(TAGGED_ARTIFACT)
 
+## Docker build
+## We leverage docker as the containerization. We tag the image with the latest commit version
+
+.PHONY: docker_image
+IMAGE_ID := $(ARTIFACT_ID):$(TAG)
+docker_image:
+	@echo "Building docker image ..."
+	docker build --tag=$(IMAGE_ID) .
+
+docker_run:
+	@echo "Running docker ..."
+	docker run -p 5090:5090 $(IMAGE_ID)
