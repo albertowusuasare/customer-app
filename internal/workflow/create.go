@@ -7,7 +7,7 @@ import (
 	"github.com/albertowusuasare/customer-app/internal/uuid"
 )
 
-// CreateFunc creates a persisted custoemr from a request to add a new customer
+// CreateFunc creates a persisted customer from a request to add a new customer
 type CreateFunc func(r adding.Request) adding.PersistedCustomer
 
 // Create is the default implementation of the customer create workflow

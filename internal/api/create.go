@@ -1,4 +1,4 @@
-package handler
+package api
 
 import (
 	"encoding/json"
@@ -28,26 +28,23 @@ type CreateResponseDTO struct {
 	AccountID   string `json:"accountId"`
 }
 
-// CreateHandler represents the http handler for a customer create http call
-type CreateHandler struct {
-	Workflow workflow.CreateFunc
-}
-
-// Handle allows the CreateHandler to act as an http call handler
-func (handler CreateHandler) Handle(w http.ResponseWriter, r *http.Request) {
-	decoder := json.NewDecoder(r.Body)
-	var requestDTO CreateRequestDTO
-	err := decoder.Decode(&requestDTO)
-	if err != nil {
-		panic(err)
-	}
-	w.Header().Set("Content-Type", "application/json")
-	createRequest := createRequestFromCreateRequestDTO(requestDTO)
-	peristedCustomer := handler.Workflow(createRequest)
-	response := createResponseDTOFromPersistedCustomer(peristedCustomer)
-	encodeErr := json.NewEncoder(w).Encode(response)
-	if encodeErr != nil {
-		log.Fatal(encodeErr)
+// HandleCreate returns an http handler for the customer create API call
+func HandleCreate(wf workflow.CreateFunc) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		decoder := json.NewDecoder(r.Body)
+		var requestDTO CreateRequestDTO
+		err := decoder.Decode(&requestDTO)
+		if err != nil {
+			panic(err)
+		}
+		w.Header().Set("Content-Type", "application/json")
+		createRequest := createRequestFromCreateRequestDTO(requestDTO)
+		peristedCustomer := wf(createRequest)
+		response := createResponseDTOFromPersistedCustomer(peristedCustomer)
+		encodeErr := json.NewEncoder(w).Encode(response)
+		if encodeErr != nil {
+			log.Fatal(encodeErr)
+		}
 	}
 }
 
