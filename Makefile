@@ -41,7 +41,7 @@ sanity-check: deps lint test
 
 .PHONY: int-test
 int-test:
-	go test -v github.com/albertowusuasare/customer-app/cmd/customer-svc/test/integration
+	go test -v github.com/albertowusuasare/customer-app/test/integration
 
 # Tagged Artifact build
 

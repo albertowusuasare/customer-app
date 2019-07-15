@@ -8,13 +8,13 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/albertowusuasare/customer-app/cmd/customer-svc/pkg"
 	"github.com/albertowusuasare/customer-app/internal/api"
+	"github.com/albertowusuasare/customer-app/internal/app"
 )
 
 func TestRemove(t *testing.T) {
 	// Initialize test server
-	app := pkg.InmemApp()
+	app := app.Inmem()
 	ts := httptest.NewServer(api.Handler(app))
 
 	// Create customer
