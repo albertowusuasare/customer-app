@@ -12,12 +12,11 @@ import (
 	"time"
 
 	"github.com/albertowusuasare/customer-app/internal/api"
-
-	"github.com/albertowusuasare/customer-app/cmd/customer-svc/pkg"
+	"github.com/albertowusuasare/customer-app/internal/app"
 )
 
 func TestUpdate(t *testing.T) {
-	app := pkg.InmemApp()
+	app := app.Inmem()
 	ts := httptest.NewServer(api.Handler(app))
 
 	// Seed customer
