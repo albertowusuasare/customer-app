@@ -8,14 +8,14 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/albertowusuasare/customer-app/cmd/customer-svc/handler"
 	"github.com/albertowusuasare/customer-app/cmd/customer-svc/pkg"
+	"github.com/albertowusuasare/customer-app/internal/api"
 	"github.com/albertowusuasare/customer-app/internal/uuid"
 )
 
 func TestCreateAPI(t *testing.T) {
 	app := pkg.InmemApp()
-	ts := httptest.NewServer(handler.Handle(app))
+	ts := httptest.NewServer(api.Handler(app))
 	defer ts.Close()
 
 	requestBody, _ := ioutil.ReadFile("../data/create-request.json")
@@ -36,9 +36,9 @@ func TestCreateAPI(t *testing.T) {
 }
 
 func testExpectedResponse(t *testing.T, request []byte, response []byte) {
-	requestDTO := handler.CreateRequestDTO{}
+	requestDTO := api.CreateRequestDTO{}
 	UnMarshal(request, &requestDTO)
-	responseDTO := handler.CreateResponseDTO{}
+	responseDTO := api.CreateResponseDTO{}
 	UnMarshal(response, &responseDTO)
 
 	var responseFieldsTests = []struct {

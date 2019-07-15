@@ -11,14 +11,14 @@ import (
 	"testing"
 	"time"
 
-	"github.com/albertowusuasare/customer-app/cmd/customer-svc/handler"
+	"github.com/albertowusuasare/customer-app/internal/api"
 
 	"github.com/albertowusuasare/customer-app/cmd/customer-svc/pkg"
 )
 
 func TestUpdate(t *testing.T) {
 	app := pkg.InmemApp()
-	ts := httptest.NewServer(handler.Handle(app))
+	ts := httptest.NewServer(api.Handler(app))
 
 	// Seed customer
 	customer := CreateTestDataCustomer(ts)
@@ -46,10 +46,10 @@ func TestUpdate(t *testing.T) {
 
 func testUpdateResponsePayload(req []byte, res []byte, t *testing.T) {
 
-	requestDTO := handler.UpdateRequestDTO{}
+	requestDTO := api.UpdateRequestDTO{}
 	UnMarshal(req, &requestDTO)
 
-	responseDTO := handler.UpdateResponseDTO{}
+	responseDTO := api.UpdateResponseDTO{}
 	UnMarshal(res, &responseDTO)
 
 	log.Printf("Response %+v", responseDTO)

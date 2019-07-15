@@ -1,4 +1,4 @@
-package handler
+package api
 
 import (
 	"encoding/json"
@@ -8,11 +8,6 @@ import (
 	"github.com/albertowusuasare/customer-app/internal/updating"
 	"github.com/albertowusuasare/customer-app/internal/workflow"
 )
-
-// UpdateHandler represents the http handler for a customer update http call
-type UpdateHandler struct {
-	Workflow workflow.UpdateFunc
-}
 
 // UpdateRequestDTO represents the json structure for a customer update request
 type UpdateRequestDTO struct {
@@ -35,25 +30,26 @@ type UpdateResponseDTO struct {
 	Version          int    `json:"version"`
 }
 
-// Handle allows the UpdateHandler to act as an http call handler
-func (handler UpdateHandler) Handle(w http.ResponseWriter, r *http.Request) {
-	decoder := json.NewDecoder(r.Body)
-	var requestDTO UpdateRequestDTO
-	err := decoder.Decode(&requestDTO)
-	if err != nil {
-		panic(err)
+// HandleUpdate returns an http handler for a customer update API call
+func HandleUpdate(wf workflow.UpdateFunc) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		decoder := json.NewDecoder(r.Body)
+		var requestDTO UpdateRequestDTO
+		err := decoder.Decode(&requestDTO)
+		if err != nil {
+			panic(err)
+		}
+		customerId := RetrieveCustomerId(r)
+		w.Header().Set("Content-Type", "application/json")
+		request := updateRequestFromUpdateRequestDTO(customerId, requestDTO)
+		log.Printf("Updating customer for request=%+v", request)
+		updatedCustomer := wf(request)
+		response := updateResponseDTOFromUpdatedCustomer(updatedCustomer)
+		encodeErr := json.NewEncoder(w).Encode(response)
+		if encodeErr != nil {
+			log.Fatal(encodeErr)
+		}
 	}
-	customerId := RetrieveCustomerId(r)
-	w.Header().Set("Content-Type", "application/json")
-	request := updateRequestFromUpdateRequestDTO(customerId, requestDTO)
-	log.Printf("Updating customer for request=%+v", request)
-	updatedCustomer := handler.Workflow(request)
-	response := updateResponseDTOFromUpdatedCustomer(updatedCustomer)
-	encodeErr := json.NewEncoder(w).Encode(response)
-	if encodeErr != nil {
-		log.Fatal(encodeErr)
-	}
-
 }
 
 func updateRequestFromUpdateRequestDTO(customerId string, dto UpdateRequestDTO) updating.Request {

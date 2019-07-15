@@ -6,13 +6,13 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/albertowusuasare/customer-app/cmd/customer-svc/handler"
 	"github.com/albertowusuasare/customer-app/cmd/customer-svc/pkg"
+	"github.com/albertowusuasare/customer-app/internal/api"
 )
 
 func TestRetreiveOneAPI(t *testing.T) {
 	app := pkg.InmemApp()
-	ts := httptest.NewServer(handler.Handle(app))
+	ts := httptest.NewServer(api.Handler(app))
 	defer ts.Close()
 
 	//create a customer
@@ -30,16 +30,16 @@ func TestRetreiveOneAPI(t *testing.T) {
 
 }
 
-func retrieveCustomer(ts *httptest.Server, customerID string) handler.CustomerRetrieveResponseDTO {
+func retrieveCustomer(ts *httptest.Server, customerID string) api.CustomerRetrieveResponseDTO {
 	customerRetrieveURL := ts.URL + "/customers/" + customerID
 	res, _ := http.Get(customerRetrieveURL)
 	response, _ := ioutil.ReadAll(res.Body)
-	responseDTO := handler.CustomerRetrieveResponseDTO{}
+	responseDTO := api.CustomerRetrieveResponseDTO{}
 	UnMarshal(response, &responseDTO)
 	return responseDTO
 }
 
-func testExpectedCustomerFieldsPresent(c handler.CustomerRetrieveResponseDTO, t *testing.T) {
+func testExpectedCustomerFieldsPresent(c api.CustomerRetrieveResponseDTO, t *testing.T) {
 	var fields = []struct{ name, value string }{
 		{
 			"firstName",
