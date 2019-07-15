@@ -8,6 +8,21 @@
 	"item": [
 		{
 			"name": "Create customer",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "43c19d7f-c28b-461f-ad11-b6465910cd50",
+						"exec": [
+							"var response = pm.response.json()",
+							"var customerId = response.customerId;",
+							"console.log(`Created customerId=${customerId}`)",
+							"postman.setEnvironmentVariable(\"customerId\", customerId)"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [
@@ -23,19 +38,65 @@
 					"raw": "{\n\t\"firstName\": \"Evelyn\",\n\t\"lastName\": \"Nkooyooyo\",\n\t\"nationalId\": \"12345779\",\n\t\"phoneNumber\": \"82876337\",\n\t\"accountId\": \"{{$guid}}\"\n}"
 				},
 				"url": {
-					"raw": "http://localhost:5090/customers/",
-					"protocol": "http",
+					"raw": "{{customer-svc-url}}/customers/",
 					"host": [
-						"localhost"
+						"{{customer-svc-url}}"
 					],
-					"port": "5090",
 					"path": [
 						"customers",
 						""
 					]
 				}
 			},
-			"response": []
+			"response": [
+				{
+					"name": "Create customer",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"firstName\": \"Ham\",\n\t\"lastName\": \"Serunjogi\",\n\t\"nationalId\": \"12345779\",\n\t\"phoneNumber\": \"82876337\",\n\t\"accountId\": \"{{$guid}}\"\n}"
+						},
+						"url": {
+							"raw": "{{customer-svc-url}}/customers/",
+							"host": [
+								"{{customer-svc-url}}"
+							],
+							"path": [
+								"customers",
+								""
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 15 Jul 2019 11:50:55 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "195"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"customerId\": \"961ebcd9-33fe-41ac-9791-7f89ad3dfa4e\",\n    \"firstName\": \"Ham\",\n    \"lastName\": \"Serunjogi\",\n    \"nationalId\": \"12345779\",\n    \"phoneNumber\": \"82876337\",\n    \"accountId\": \"10a01d6f-ea92-4280-9d39-2b33a51782aa\"\n}"
+				}
+			]
 		},
 		{
 			"name": "Get customers",
@@ -49,19 +110,60 @@
 					}
 				],
 				"url": {
-					"raw": "http://localhost:5090/customers/",
-					"protocol": "http",
+					"raw": "{{customer-svc-url}}/customers/",
 					"host": [
-						"localhost"
+						"{{customer-svc-url}}"
 					],
-					"port": "5090",
 					"path": [
 						"customers",
 						""
 					]
 				}
 			},
-			"response": []
+			"response": [
+				{
+					"name": "Get customers",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{customer-svc-url}}/customers/",
+							"host": [
+								"{{customer-svc-url}}"
+							],
+							"path": [
+								"customers",
+								""
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 15 Jul 2019 11:51:36 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "291"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"customerId\": \"0af1648c-84ee-479f-a5c8-642317fee5a9\",\n        \"firstName\": \"Evelyn\",\n        \"lastName\": \"Nkooyooyo\",\n        \"nationalId\": \"12345779\",\n        \"phoneNumber\": \"82876337\",\n        \"accountId\": \"52160fd4-3a30-423f-bac0-afd28aa10c12\",\n        \"lastModifiedTime\": \"2019-07-15T11:39:50Z\",\n        \"createdTime\": \"2019-07-15T11:39:50Z\",\n        \"version\": 0\n    }\n]"
+				}
+			]
 		},
 		{
 			"name": "Get Customer",
@@ -75,19 +177,60 @@
 					}
 				],
 				"url": {
-					"raw": "http://localhost:5090/customers/12d05013-aa55-417d-a542-b716e67b4ff6",
-					"protocol": "http",
+					"raw": "{{customer-svc-url}}/customers/{{customerId}}",
 					"host": [
-						"localhost"
+						"{{customer-svc-url}}"
 					],
-					"port": "5090",
 					"path": [
 						"customers",
-						"12d05013-aa55-417d-a542-b716e67b4ff6"
+						"{{customerId}}"
 					]
 				}
 			},
-			"response": []
+			"response": [
+				{
+					"name": "Get Customer",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{customer-svc-url}}/customers/{{customerId}}",
+							"host": [
+								"{{customer-svc-url}}"
+							],
+							"path": [
+								"customers",
+								"{{customerId}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 15 Jul 2019 11:51:13 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "286"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"customerId\": \"961ebcd9-33fe-41ac-9791-7f89ad3dfa4e\",\n    \"firstName\": \"Ham\",\n    \"lastName\": \"Serunjogi\",\n    \"nationalId\": \"12345779\",\n    \"phoneNumber\": \"82876337\",\n    \"accountId\": \"10a01d6f-ea92-4280-9d39-2b33a51782aa\",\n    \"lastModifiedTime\": \"2019-07-15T11:50:55Z\",\n    \"createdTime\": \"2019-07-15T11:50:55Z\",\n    \"version\": 0\n}"
+				}
+			]
 		},
 		{
 			"name": "Update customer",
@@ -103,22 +246,68 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"firstName\": \"Evelyn\",\n    \"lastName\": \"Owusu-Asare\",\n    \"nationalId\": \"12345779\",\n    \"phoneNumber\": \"12345779\",\n    \"accountId\": \"b0c7f232-e6b4-45e8-a1cf-3fbad9ff30f0\"\n}"
+					"raw": "{\n    \"firstName\": \"Evelyn\",\n    \"lastName\": \"Owusu-Asare\",\n    \"nationalId\": \"12345779\",\n    \"phoneNumber\": \"12345779\"\n}"
 				},
 				"url": {
-					"raw": "http://localhost:5090/customers/12d05013-aa55-417d-a542-b716e67b4ff6",
-					"protocol": "http",
+					"raw": "{{customer-svc-url}}/customers/{{customerId}}",
 					"host": [
-						"localhost"
+						"{{customer-svc-url}}"
 					],
-					"port": "5090",
 					"path": [
 						"customers",
-						"12d05013-aa55-417d-a542-b716e67b4ff6"
+						"{{customerId}}"
 					]
 				}
 			},
-			"response": []
+			"response": [
+				{
+					"name": "Update customer",
+					"originalRequest": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstName\": \"Evelyn\",\n    \"lastName\": \"Owusu-Asare\",\n    \"nationalId\": \"12345779\",\n    \"phoneNumber\": \"12345779\"\n}"
+						},
+						"url": {
+							"raw": "{{customer-svc-url}}/customers/{{customerId}}",
+							"host": [
+								"{{customer-svc-url}}"
+							],
+							"path": [
+								"customers",
+								"{{customerId}}"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 15 Jul 2019 11:51:22 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "291"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"customerId\": \"961ebcd9-33fe-41ac-9791-7f89ad3dfa4e\",\n    \"firstName\": \"Evelyn\",\n    \"lastName\": \"Owusu-Asare\",\n    \"nationalId\": \"12345779\",\n    \"phoneNumber\": \"12345779\",\n    \"accountId\": \"10a01d6f-ea92-4280-9d39-2b33a51782aa\",\n    \"lastModifiedTime\": \"2019-07-15T11:51:22Z\",\n    \"createdTime\": \"2019-07-15T11:50:55Z\",\n    \"version\": 1\n}"
+				}
+			]
 		},
 		{
 			"name": "Remove customer",
@@ -132,19 +321,56 @@
 					}
 				],
 				"url": {
-					"raw": "http://localhost:5090/customers/12d05013-aa55-417d-a542-b716e67b4ff6",
-					"protocol": "http",
+					"raw": "{{customer-svc-url}}/customers/{{customerId}}",
 					"host": [
-						"localhost"
+						"{{customer-svc-url}}"
 					],
-					"port": "5090",
 					"path": [
 						"customers",
-						"12d05013-aa55-417d-a542-b716e67b4ff6"
+						"{{customerId}}"
 					]
 				}
 			},
-			"response": []
+			"response": [
+				{
+					"name": "Remove customer",
+					"originalRequest": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{customer-svc-url}}/customers/{{customerId}}",
+							"host": [
+								"{{customer-svc-url}}"
+							],
+							"path": [
+								"customers",
+								"{{customerId}}"
+							]
+						}
+					},
+					"status": "No Content",
+					"code": 204,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Mon, 15 Jul 2019 11:51:32 GMT"
+						}
+					],
+					"cookie": [],
+					"body": null
+				}
+			]
 		}
 	]
 }
