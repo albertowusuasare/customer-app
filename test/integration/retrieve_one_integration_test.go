@@ -6,12 +6,12 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/albertowusuasare/customer-app/cmd/customer-svc/pkg"
 	"github.com/albertowusuasare/customer-app/internal/api"
+	"github.com/albertowusuasare/customer-app/internal/app"
 )
 
 func TestRetreiveOneAPI(t *testing.T) {
-	app := pkg.InmemApp()
+	app := app.Inmem()
 	ts := httptest.NewServer(api.Handler(app))
 	defer ts.Close()
 
