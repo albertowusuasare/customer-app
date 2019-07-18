@@ -13,18 +13,18 @@ import (
 func TestCreate(t *testing.T) {
 	request := mockAddingRequest()
 	expectedID := "724377e7-1567-4756-b18b-1a15ed35d8f4"
-	expectedPersistedCustomer := newPersistedCustomer(expectedID, request)
+	expectedCustomer := newCustomer(expectedID, request)
 
 	requestValidator := successRequestValidator()
 	genUUIDStr := func() string { return expectedID }
 	insertCustomer := successInsertCustomer()
-	publishCustomerAdded := successCustomerAddedPublisher(expectedPersistedCustomer, t)
+	publishCustomerAdded := successCustomerAddedPublisher(expectedCustomer, t)
 
 	createFunc := Create(requestValidator, genUUIDStr, insertCustomer, publishCustomerAdded)
-	actualPersistedCustomer, _ := createFunc(request)
+	actualCustomer, _ := createFunc(request)
 
-	if expectedPersistedCustomer != actualPersistedCustomer {
-		t.Errorf("expectedPersistedCustomer=%+v is not equal to actualPersistedCustomer=%+v", expectedPersistedCustomer, actualPersistedCustomer)
+	if expectedCustomer != actualCustomer {
+		t.Errorf("expectedCustomer=%+v is not equal to actualCustomer=%+v", expectedCustomer, actualCustomer)
 	}
 
 }
@@ -39,8 +39,8 @@ func mockAddingRequest() adding.UnvalidatedRequest {
 	}
 }
 
-func newPersistedCustomer(id string, r adding.UnvalidatedRequest) adding.PersistedCustomer {
-	return adding.PersistedCustomer{
+func newCustomer(id string, r adding.UnvalidatedRequest) adding.Customer {
+	return adding.Customer{
 		CustomerId:  id,
 		FirstName:   r.FirstName,
 		LastName:    r.LastName,
@@ -64,8 +64,8 @@ func successRequestValidator() adding.RequestValidatorFunc {
 }
 
 func successInsertCustomer() storage.InsertCustomerFunc {
-	return func(request adding.ValidatedRequest, genUUIDStr uuid.GenFunc) adding.PersistedCustomer {
-		return adding.PersistedCustomer{
+	return func(request adding.ValidatedRequest, genUUIDStr uuid.GenFunc) adding.Customer {
+		return adding.Customer{
 			CustomerId:  genUUIDStr(),
 			FirstName:   adding.RetrieveFirstName(request.FirstName),
 			LastName:    request.LastName,
@@ -76,11 +76,11 @@ func successInsertCustomer() storage.InsertCustomerFunc {
 	}
 }
 
-func successCustomerAddedPublisher(expectedPersistedCustomer adding.PersistedCustomer,
+func successCustomerAddedPublisher(expectedCustomer adding.Customer,
 	t *testing.T) msg.CustomerAddedPublisherFunc {
-	return func(customer adding.PersistedCustomer) msg.Response {
-		if expectedPersistedCustomer != customer {
-			t.Errorf(fmt.Sprintf("Invalid customerAddedPublish arg. Expected=%+v Actual=%+v", expectedPersistedCustomer, customer))
+	return func(customer adding.Customer) msg.Response {
+		if expectedCustomer != customer {
+			t.Errorf(fmt.Sprintf("Invalid customerAddedPublish arg. Expected=%+v Actual=%+v", expectedCustomer, customer))
 		}
 		return msg.Response{
 			MessageId:    "19a1eed3-a650-412d-aeb7-20fabe0b37bc",

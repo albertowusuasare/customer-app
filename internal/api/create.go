@@ -45,7 +45,7 @@ func HandleCreate(wf workflow.CreateFunc) http.HandlerFunc {
 			handleWorkflowError(err, w)
 			return
 		}
-		response := createResponseDTOFromPersistedCustomer(peristedCustomer)
+		response := createResponseDTOFromCustomer(peristedCustomer)
 		encodeErr := json.NewEncoder(w).Encode(response)
 		if encodeErr != nil {
 			log.Fatal(encodeErr)
@@ -63,7 +63,7 @@ func createRequestFromCreateRequestDTO(dto CreateRequestDTO) adding.UnvalidatedR
 	}
 }
 
-func createResponseDTOFromPersistedCustomer(peristedCustomer adding.PersistedCustomer) CreateResponseDTO {
+func createResponseDTOFromCustomer(peristedCustomer adding.Customer) CreateResponseDTO {
 	return CreateResponseDTO{
 		CustomerID:  peristedCustomer.CustomerId,
 		FirstName:   peristedCustomer.FirstName,

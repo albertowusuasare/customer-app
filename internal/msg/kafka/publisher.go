@@ -8,7 +8,7 @@ import (
 
 // CustomerAddedPublisher returns a kafka customer add publisher
 func CustomerAddedPublisher() msg.CustomerAddedPublisherFunc {
-	return func(c adding.PersistedCustomer) msg.Response {
+	return func(c adding.Customer) msg.Response {
 		panic("Customer added kafka publisher not yet implemented")
 	}
 }

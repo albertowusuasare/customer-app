@@ -1,6 +1,6 @@
 package retrieving
 
-// A Customer represents all the data for a persisted customer
+// A Customer represents all the data for a  customer
 // The data includes audit data such as CreatedTime, lastModifiedTime, Version
 type Customer struct {
 	CustomerId       string

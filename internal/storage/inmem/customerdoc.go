@@ -29,11 +29,11 @@ var customerCollection = map[string]CustomerDocument{}
 
 //InsertCustomer returns an imemory implementation for customer inserts
 func InsertCustomer() storage.InsertCustomerFunc {
-	return func(request adding.ValidatedRequest, genUUIDStr uuid.GenFunc) adding.PersistedCustomer {
+	return func(request adding.ValidatedRequest, genUUIDStr uuid.GenFunc) adding.Customer {
 		customerDoc := customerDocumentFromValidatedRequest(request, genUUIDStr)
 		fmt.Printf("Adding customerDoc=%+v to in memory database\n", customerDoc)
 		customerCollection[customerDoc.CustomerId] = customerDoc
-		return adding.PersistedCustomer{
+		return adding.Customer{
 			CustomerId:  customerDoc.CustomerId,
 			FirstName:   customerDoc.FirstName,
 			LastName:    customerDoc.LastName,
