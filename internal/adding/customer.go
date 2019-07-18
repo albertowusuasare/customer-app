@@ -10,12 +10,12 @@ type firstName string
 
 // A Customer is the value of a customer post insert
 type Customer struct {
-	CustomerId  string
+	CustomerID  string
 	FirstName   string
 	LastName    string
-	NationalId  string
+	NationalID  string
 	PhoneNumber string
-	AccountId   string
+	AccountID   string
 }
 
 /* Simple type constructors */

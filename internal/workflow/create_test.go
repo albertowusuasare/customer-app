@@ -33,20 +33,20 @@ func mockAddingRequest() adding.UnvalidatedRequest {
 	return adding.UnvalidatedRequest{
 		FirstName:   "John",
 		LastName:    "Doe",
-		NationalId:  "987654321",
+		NationalID:  "987654321",
 		PhoneNumber: "020765432",
-		AccountId:   "b253fd2a-6bb9-49db-9fb5-f6388e1661a7",
+		AccountID:   "b253fd2a-6bb9-49db-9fb5-f6388e1661a7",
 	}
 }
 
-func newCustomer(id string, r adding.UnvalidatedRequest) adding.Customer {
+func newCustomer(ID string, r adding.UnvalidatedRequest) adding.Customer {
 	return adding.Customer{
-		CustomerId:  id,
+		CustomerID:  ID,
 		FirstName:   r.FirstName,
 		LastName:    r.LastName,
-		NationalId:  r.NationalId,
+		NationalID:  r.NationalID,
 		PhoneNumber: r.PhoneNumber,
-		AccountId:   r.AccountId,
+		AccountID:   r.AccountID,
 	}
 }
 
@@ -56,9 +56,9 @@ func successRequestValidator() adding.RequestValidatorFunc {
 		return adding.ValidatedRequest{
 			FirstName:   firstName,
 			LastName:    r.LastName,
-			NationalId:  r.NationalId,
+			NationalID:  r.NationalID,
 			PhoneNumber: r.PhoneNumber,
-			AccountId:   r.AccountId,
+			AccountID:   r.AccountID,
 		}, nil
 	}
 }
@@ -66,12 +66,12 @@ func successRequestValidator() adding.RequestValidatorFunc {
 func successInsertCustomer() storage.InsertCustomerFunc {
 	return func(request adding.ValidatedRequest, genUUIDStr uuid.GenFunc) adding.Customer {
 		return adding.Customer{
-			CustomerId:  genUUIDStr(),
+			CustomerID:  genUUIDStr(),
 			FirstName:   adding.RetrieveFirstName(request.FirstName),
 			LastName:    request.LastName,
-			NationalId:  request.NationalId,
+			NationalID:  request.NationalID,
 			PhoneNumber: request.PhoneNumber,
-			AccountId:   request.AccountId,
+			AccountID:   request.AccountID,
 		}
 	}
 }
@@ -83,7 +83,7 @@ func successCustomerAddedPublisher(expectedCustomer adding.Customer,
 			t.Errorf(fmt.Sprintf("Invalid customerAddedPublish arg. Expected=%+v Actual=%+v", expectedCustomer, customer))
 		}
 		return msg.Response{
-			MessageId:    "19a1eed3-a650-412d-aeb7-20fabe0b37bc",
+			MessageID:    "19a1eed3-a650-412d-aeb7-20fabe0b37bc",
 			Acknowledged: true,
 		}
 	}

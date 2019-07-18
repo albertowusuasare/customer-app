@@ -8,13 +8,13 @@ import (
 )
 
 // InsertCustomerFunc adds a new customer to a permaent data store.
-// A unique id for the customer will be generated using genUUIDStr
+// A unique ID for the customer will be generated using genUUIDStr
 type InsertCustomerFunc func(request adding.ValidatedRequest, genUUIDStr uuid.GenFunc) adding.Customer
 
-// RetrieveCustomerFunc retrieve a customer in the data store corresponding to customerId
-// when error is nil. An error is returned if a customer record cannot be found for customerId.
+// RetrieveCustomerFunc retrieve a customer in the data store corresponding to customerID
+// when error is nil. An error is returned if a customer record cannot be found for customerID.
 // In that case retrieving.CustomerNonExistent is returned
-type RetrieveCustomerFunc func(customerId string) (*retrieving.Customer, error)
+type RetrieveCustomerFunc func(customerID string) (*retrieving.Customer, error)
 
 // RetrieveCustomersFunc retrieves multiple customers based on the query criteria defined in 'request'.
 type RetrieveCustomersFunc func(request retrieving.MultiRequest) []retrieving.Customer
@@ -22,5 +22,5 @@ type RetrieveCustomersFunc func(request retrieving.MultiRequest) []retrieving.Cu
 // UpdateCustomerFunc updates a customer in the datastore based on the incoming request
 type UpdateCustomerFunc func(request updating.Request) updating.UpdatedCustomer
 
-// RemoveCustomerFunc removes the customer corresponding to customerId from the datastore
-type RemoveCustomerFunc func(customerId string)
+// RemoveCustomerFunc removes the customer corresponding to customerID from the datastore
+type RemoveCustomerFunc func(customerID string)

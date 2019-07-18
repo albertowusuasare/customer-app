@@ -11,8 +11,8 @@ import (
 // CustomerAddedPublisher returns an in memory customer add publisher
 func CustomerAddedPublisher() msg.CustomerAddedPublisherFunc {
 	return func(c adding.Customer) msg.Response {
-		publisher := func(messageId string) {
-			log.Printf("Publishing customer add event with messageId=%+s", messageId)
+		publisher := func(messageID string) {
+			log.Printf("Publishing customer add event with messageID=%+s", messageID)
 		}
 		return publish(c, publisher)
 	}
@@ -21,8 +21,8 @@ func CustomerAddedPublisher() msg.CustomerAddedPublisherFunc {
 // CustomerUpdatedPublisher returns an in memory customer updated publisher
 func CustomerUpdatedPublisher() msg.CustomerUpdatedPublisherFunc {
 	return func(c updating.UpdatedCustomer) msg.Response {
-		publisher := func(messageId string) {
-			log.Printf("Publishing customer update event with messageId=%+s", messageId)
+		publisher := func(messageID string) {
+			log.Printf("Publishing customer update event with messageID=%+s", messageID)
 		}
 		return publish(c, publisher)
 	}
@@ -30,22 +30,22 @@ func CustomerUpdatedPublisher() msg.CustomerUpdatedPublisherFunc {
 
 // CustomerRemovedPublisher returns an in memory customer removed publisher
 func CustomerRemovedPublisher() msg.CustomerRemovedPublisherFunc {
-	return func(id string) msg.Response {
-		publisher := func(messageId string) {
-			log.Printf("Publishing customer removed event with messageId=%+s", messageId)
+	return func(ID string) msg.Response {
+		publisher := func(messageID string) {
+			log.Printf("Publishing customer removed event with messageID=%+s", messageID)
 		}
-		return publish(id, publisher)
+		return publish(ID, publisher)
 	}
 }
 
-type publisherFunc func(messageId string)
+type publisherFunc func(messageID string)
 
 func publish(payload interface{}, doPublish publisherFunc) msg.Response {
 	envelope := CreateEnvelope(payload)
-	messageId := envelope.Header.Id
-	doPublish(messageId)
+	messageID := envelope.Header.ID
+	doPublish(messageID)
 	return msg.Response{
-		MessageId:    messageId,
+		MessageID:    messageID,
 		Acknowledged: true,
 	}
 }

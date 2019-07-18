@@ -10,8 +10,8 @@ type RemoveFunc func(customerId string)
 
 // Remove is the default implementation of the customer removal workflow
 func Remove(removeCustomer storage.RemoveCustomerFunc, publishRemove msg.CustomerRemovedPublisherFunc) RemoveFunc {
-	return func(customerId string) {
-		removeCustomer(customerId)
-		publishRemove(customerId)
+	return func(customerID string) {
+		removeCustomer(customerID)
+		publishRemove(customerID)
 	}
 }

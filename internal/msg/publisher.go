@@ -7,7 +7,7 @@ import (
 
 // Response represents the response after a message is published
 type Response struct {
-	MessageId    string
+	MessageID    string
 	Acknowledged bool
 }
 

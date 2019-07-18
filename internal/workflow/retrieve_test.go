@@ -15,7 +15,7 @@ func TestRetrieveOne(t *testing.T) {
 	actualCustomer, _ := retrieveOne(customerID)
 
 	if *expectedCustomer != *actualCustomer {
-		t.Errorf("with customerId=%s, expectedCustomer=%+v actualCustomer=%+v",
+		t.Errorf("with customerID=%s, expectedCustomer=%+v actualCustomer=%+v",
 			customerID, *expectedCustomer, *actualCustomer)
 	}
 }
@@ -27,12 +27,12 @@ func retrieveFromDb(customerID string) (*retrieving.Customer, error) {
 
 func mockCustomer(customerID string) retrieving.Customer {
 	return retrieving.Customer{
-		CustomerId:       customerID,
+		CustomerID:       customerID,
 		FirstName:        "John",
 		LastName:         "Doe",
-		NationalId:       "9876543",
+		NationalID:       "9876543",
 		PhoneNumber:      "987654321",
-		AccountId:        "1bd23762-b26e-4bdb-8203-b4f1eecc003d",
+		AccountID:        "1bd23762-b26e-4bdb-8203-b4f1eecc003d",
 		LastModifiedTime: "2019-07-05T01:39:36+01:00",
 		CreatedTime:      "2019-07-05T01:39:36+01:00",
 		Version:          0,
