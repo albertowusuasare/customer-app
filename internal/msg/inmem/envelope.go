@@ -16,14 +16,14 @@ type Envelope struct {
 
 // A Header is a representation of an event meta data.
 type Header struct {
-	Id        string
+	ID        string
 	TimeStamp string
 }
 
 // CreateEnvelope creates an evelope for any data payload
 func CreateEnvelope(payload interface{}) Envelope {
 	header := Header{
-		Id:        uuid.New().String(),
+		ID:        uuid.New().String(),
 		TimeStamp: time.Now().Format(time.RFC3339),
 	}
 	body := marshal(payload)

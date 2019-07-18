@@ -89,11 +89,11 @@ func testExpectedResponse(t *testing.T, request []byte, response []byte) {
 
 	t.Run("CustomerIdPresent", func(t *testing.T) {
 		if customerID == "" {
-			t.Fatalf("Customer id not present. got %s", customerID)
+			t.Fatalf("Customer ID not present. got %s", customerID)
 		}
 	})
 
-	t.Run("CustomerIdValidUUID", func(t *testing.T) {
+	t.Run("CustomerIDValidUUID", func(t *testing.T) {
 		customerID := responseDTO.CustomerID
 		if !uuid.IsValidUUID(customerID) {
 			t.Errorf("CustomerID is not a valid v4 UUID. got %s", customerID)

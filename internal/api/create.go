@@ -21,7 +21,7 @@ type CreateRequestDTO struct {
 
 // CreateResponseDTO represents the json structure for a customer create response
 type CreateResponseDTO struct {
-	CustomerID  string `json:"customerId"` //rename this ID?
+	CustomerID  string `json:"customerId"`
 	FirstName   string `json:"firstName"`
 	LastName    string `json:"lastName"`
 	NationalID  string `json:"nationalId"`
@@ -45,7 +45,7 @@ func HandleCreate(wf workflow.CreateFunc) http.HandlerFunc {
 			handleWorkflowError(err, w)
 			return
 		}
-		response := createResponseDTOFromPersistedCustomer(peristedCustomer)
+		response := createResponseDTOFromCustomer(peristedCustomer)
 		encodeErr := json.NewEncoder(w).Encode(response)
 		if encodeErr != nil {
 			log.Fatal(encodeErr)
@@ -57,20 +57,20 @@ func createRequestFromCreateRequestDTO(dto CreateRequestDTO) adding.UnvalidatedR
 	return adding.UnvalidatedRequest{
 		FirstName:   dto.FirstName,
 		LastName:    dto.LastName,
-		NationalId:  dto.NationalID,
+		NationalID:  dto.NationalID,
 		PhoneNumber: dto.PhoneNumber,
-		AccountId:   dto.AccountID,
+		AccountID:   dto.AccountID,
 	}
 }
 
-func createResponseDTOFromPersistedCustomer(peristedCustomer adding.PersistedCustomer) CreateResponseDTO {
+func createResponseDTOFromCustomer(peristedCustomer adding.Customer) CreateResponseDTO {
 	return CreateResponseDTO{
-		CustomerID:  peristedCustomer.CustomerId,
+		CustomerID:  peristedCustomer.CustomerID,
 		FirstName:   peristedCustomer.FirstName,
 		LastName:    peristedCustomer.LastName,
-		NationalID:  peristedCustomer.NationalId,
+		NationalID:  peristedCustomer.NationalID,
 		PhoneNumber: peristedCustomer.PhoneNumber,
-		AccountID:   peristedCustomer.AccountId,
+		AccountID:   peristedCustomer.AccountID,
 	}
 }
 

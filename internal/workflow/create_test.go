@@ -13,18 +13,18 @@ import (
 func TestCreate(t *testing.T) {
 	request := mockAddingRequest()
 	expectedID := "724377e7-1567-4756-b18b-1a15ed35d8f4"
-	expectedPersistedCustomer := newPersistedCustomer(expectedID, request)
+	expectedCustomer := newCustomer(expectedID, request)
 
 	requestValidator := successRequestValidator()
 	genUUIDStr := func() string { return expectedID }
 	insertCustomer := successInsertCustomer()
-	publishCustomerAdded := successCustomerAddedPublisher(expectedPersistedCustomer, t)
+	publishCustomerAdded := successCustomerAddedPublisher(expectedCustomer, t)
 
 	createFunc := Create(requestValidator, genUUIDStr, insertCustomer, publishCustomerAdded)
-	actualPersistedCustomer, _ := createFunc(request)
+	actualCustomer, _ := createFunc(request)
 
-	if expectedPersistedCustomer != actualPersistedCustomer {
-		t.Errorf("expectedPersistedCustomer=%+v is not equal to actualPersistedCustomer=%+v", expectedPersistedCustomer, actualPersistedCustomer)
+	if expectedCustomer != actualCustomer {
+		t.Errorf("expectedCustomer=%+v is not equal to actualCustomer=%+v", expectedCustomer, actualCustomer)
 	}
 
 }
@@ -33,20 +33,20 @@ func mockAddingRequest() adding.UnvalidatedRequest {
 	return adding.UnvalidatedRequest{
 		FirstName:   "John",
 		LastName:    "Doe",
-		NationalId:  "987654321",
+		NationalID:  "987654321",
 		PhoneNumber: "020765432",
-		AccountId:   "b253fd2a-6bb9-49db-9fb5-f6388e1661a7",
+		AccountID:   "b253fd2a-6bb9-49db-9fb5-f6388e1661a7",
 	}
 }
 
-func newPersistedCustomer(id string, r adding.UnvalidatedRequest) adding.PersistedCustomer {
-	return adding.PersistedCustomer{
-		CustomerId:  id,
+func newCustomer(ID string, r adding.UnvalidatedRequest) adding.Customer {
+	return adding.Customer{
+		CustomerID:  ID,
 		FirstName:   r.FirstName,
 		LastName:    r.LastName,
-		NationalId:  r.NationalId,
+		NationalID:  r.NationalID,
 		PhoneNumber: r.PhoneNumber,
-		AccountId:   r.AccountId,
+		AccountID:   r.AccountID,
 	}
 }
 
@@ -56,34 +56,34 @@ func successRequestValidator() adding.RequestValidatorFunc {
 		return adding.ValidatedRequest{
 			FirstName:   firstName,
 			LastName:    r.LastName,
-			NationalId:  r.NationalId,
+			NationalID:  r.NationalID,
 			PhoneNumber: r.PhoneNumber,
-			AccountId:   r.AccountId,
+			AccountID:   r.AccountID,
 		}, nil
 	}
 }
 
 func successInsertCustomer() storage.InsertCustomerFunc {
-	return func(request adding.ValidatedRequest, genUUIDStr uuid.GenFunc) adding.PersistedCustomer {
-		return adding.PersistedCustomer{
-			CustomerId:  genUUIDStr(),
+	return func(request adding.ValidatedRequest, genUUIDStr uuid.GenFunc) adding.Customer {
+		return adding.Customer{
+			CustomerID:  genUUIDStr(),
 			FirstName:   adding.RetrieveFirstName(request.FirstName),
 			LastName:    request.LastName,
-			NationalId:  request.NationalId,
+			NationalID:  request.NationalID,
 			PhoneNumber: request.PhoneNumber,
-			AccountId:   request.AccountId,
+			AccountID:   request.AccountID,
 		}
 	}
 }
 
-func successCustomerAddedPublisher(expectedPersistedCustomer adding.PersistedCustomer,
+func successCustomerAddedPublisher(expectedCustomer adding.Customer,
 	t *testing.T) msg.CustomerAddedPublisherFunc {
-	return func(customer adding.PersistedCustomer) msg.Response {
-		if expectedPersistedCustomer != customer {
-			t.Errorf(fmt.Sprintf("Invalid customerAddedPublish arg. Expected=%+v Actual=%+v", expectedPersistedCustomer, customer))
+	return func(customer adding.Customer) msg.Response {
+		if expectedCustomer != customer {
+			t.Errorf(fmt.Sprintf("Invalid customerAddedPublish arg. Expected=%+v Actual=%+v", expectedCustomer, customer))
 		}
 		return msg.Response{
-			MessageId:    "19a1eed3-a650-412d-aeb7-20fabe0b37bc",
+			MessageID:    "19a1eed3-a650-412d-aeb7-20fabe0b37bc",
 			Acknowledged: true,
 		}
 	}

@@ -61,7 +61,7 @@ func testUpdateResponsePayload(req []byte, res []byte, t *testing.T) {
 	}{
 		{"firstName", requestDTO.FirstName, responseDTO.FirstName},
 		{"lastName", requestDTO.LastName, responseDTO.LastName},
-		{"nationalId", requestDTO.NationalId, responseDTO.NationalId},
+		{"nationalId", requestDTO.NationalID, responseDTO.NationalID},
 		{"PhoneNumber", requestDTO.PhoneNumber, responseDTO.PhoneNumber},
 		{"Version", "1", strconv.Itoa(responseDTO.Version)},
 	}
@@ -77,18 +77,18 @@ func testUpdateResponsePayload(req []byte, res []byte, t *testing.T) {
 	}
 
 	t.Run("customerID_is_present", func(t *testing.T) {
-		customerID := responseDTO.CustomerId
+		customerID := responseDTO.CustomerID
 
 		if customerID == "" {
-			t.Errorf("Expected customerId to be present")
+			t.Errorf("Expected customerID to be present")
 		}
 	})
 
 	t.Run("accountID_is_present", func(t *testing.T) {
-		accountID := responseDTO.AccountId
+		accountID := responseDTO.AccountID
 
 		if accountID == "" {
-			t.Errorf("Expected accountId to be present")
+			t.Errorf("Expected accountID to be present")
 		}
 	})
 

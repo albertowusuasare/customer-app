@@ -2,12 +2,12 @@ package updating
 
 //UpdatedCustomer represents an updated customer in the datastore
 type UpdatedCustomer struct {
-	CustomerId       string
+	CustomerID       string
 	FirstName        string
 	LastName         string
-	NationalId       string
+	NationalID       string
 	PhoneNumber      string
-	AccountId        string
+	AccountID        string
 	LastModifiedTime string
 	CreatedTime      string
 	Version          int
