@@ -29,8 +29,8 @@ var customerCollection = map[string]CustomerDocument{}
 
 //InsertCustomer returns an imemory implementation for customer inserts
 func InsertCustomer() storage.InsertCustomerFunc {
-	return func(customer adding.UnPersistedCustomer, genUUIDStr uuid.GenFunc) adding.PersistedCustomer {
-		customerDoc := customerDocumentFromUnPersistedCustomer(customer, genUUIDStr)
+	return func(request adding.ValidatedRequest, genUUIDStr uuid.GenFunc) adding.PersistedCustomer {
+		customerDoc := customerDocumentFromValidatedRequest(request, genUUIDStr)
 		fmt.Printf("Adding customerDoc=%+v to in memory database\n", customerDoc)
 		customerCollection[customerDoc.CustomerId] = customerDoc
 		return adding.PersistedCustomer{
@@ -44,14 +44,14 @@ func InsertCustomer() storage.InsertCustomerFunc {
 	}
 }
 
-func customerDocumentFromUnPersistedCustomer(customer adding.UnPersistedCustomer, genUUIDStr uuid.GenFunc) CustomerDocument {
+func customerDocumentFromValidatedRequest(request adding.ValidatedRequest, genUUIDStr uuid.GenFunc) CustomerDocument {
 	return CustomerDocument{
 		CustomerId:       genUUIDStr(),
-		FirstName:        customer.FirstName,
-		LastName:         customer.LastName,
-		NationalId:       customer.NationalId,
-		PhoneNumber:      customer.PhoneNumber,
-		AccountId:        customer.AccountId,
+		FirstName:        adding.RetrieveFirstName(request.FirstName),
+		LastName:         request.LastName,
+		NationalId:       request.NationalId,
+		PhoneNumber:      request.PhoneNumber,
+		AccountId:        request.AccountId,
 		LastModifiedTime: time.Now().Format(time.RFC3339),
 		CreatedTime:      time.Now().Format(time.RFC3339),
 		Version:          0,

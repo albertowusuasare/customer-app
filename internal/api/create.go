@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/albertowusuasare/customer-app/internal/adding"
+	"github.com/albertowusuasare/customer-app/internal/validation"
 	"github.com/albertowusuasare/customer-app/internal/workflow"
 )
 
@@ -39,7 +40,11 @@ func HandleCreate(wf workflow.CreateFunc) http.HandlerFunc {
 		}
 		w.Header().Set("Content-Type", "application/json")
 		createRequest := createRequestFromCreateRequestDTO(requestDTO)
-		peristedCustomer := wf(createRequest)
+		peristedCustomer, err := wf(createRequest)
+		if err != nil {
+			handleWorkflowError(err, w)
+			return
+		}
 		response := createResponseDTOFromPersistedCustomer(peristedCustomer)
 		encodeErr := json.NewEncoder(w).Encode(response)
 		if encodeErr != nil {
@@ -48,8 +53,8 @@ func HandleCreate(wf workflow.CreateFunc) http.HandlerFunc {
 	}
 }
 
-func createRequestFromCreateRequestDTO(dto CreateRequestDTO) adding.Request {
-	return adding.Request{
+func createRequestFromCreateRequestDTO(dto CreateRequestDTO) adding.UnvalidatedRequest {
+	return adding.UnvalidatedRequest{
 		FirstName:   dto.FirstName,
 		LastName:    dto.LastName,
 		NationalId:  dto.NationalID,
@@ -66,5 +71,34 @@ func createResponseDTOFromPersistedCustomer(peristedCustomer adding.PersistedCus
 		NationalID:  peristedCustomer.NationalId,
 		PhoneNumber: peristedCustomer.PhoneNumber,
 		AccountID:   peristedCustomer.AccountId,
+	}
+}
+
+func handleWorkflowError(err error, w http.ResponseWriter) {
+	if !validation.IsFieldValidationError(err) {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	fields, _ := validation.GetFailedValidationFields(err)
+	params := map[string]string{}
+
+	for k, v := range fields {
+		params[validation.RetrieveFieldName(k)] = validation.RetrieveMessage(v)
+	}
+
+	errorBody := Error{
+		Code:    InvalidRequestBody,
+		Message: InputValidationErrorMessage,
+		Params:  params,
+	}
+
+	w.WriteHeader(http.StatusNotAcceptable)
+	b, marshalErr := json.Marshal(errorBody)
+	if marshalErr != nil {
+		log.Fatal(marshalErr)
+	}
+	_, wErr := w.Write(b)
+	if wErr != nil {
+		log.Fatal(wErr)
 	}
 }

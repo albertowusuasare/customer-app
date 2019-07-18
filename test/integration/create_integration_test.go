@@ -2,10 +2,12 @@ package integration
 
 import (
 	"bytes"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"net/http/httptest"
+	"reflect"
 	"testing"
 
 	"github.com/albertowusuasare/customer-app/internal/api"
@@ -97,4 +99,77 @@ func testExpectedResponse(t *testing.T, request []byte, response []byte) {
 			t.Errorf("CustomerID is not a valid v4 UUID. got %s", customerID)
 		}
 	})
+}
+
+// ValidationErrTestCase is a tabular description of validation error tests
+type ValidationErrTestCase struct {
+	fieldName,
+	scenario,
+	requestFile,
+	expectedResponseFile string
+}
+
+func TestCreateErrorResponse(t *testing.T) {
+	app := app.Inmem()
+	ts := httptest.NewServer(api.Handler(app))
+	defer ts.Close()
+
+	testCases := validationErrorTestCases()
+	for _, tc := range testCases {
+		testName := fmt.Sprintf("%s-%s", tc.fieldName, tc.scenario)
+		t.Run(testName, func(t *testing.T) {
+
+			// invoke API
+			requestBody, _ := ioutil.ReadFile(fmt.Sprintf("../data/validation/%s", tc.requestFile))
+			buffer := bytes.NewBuffer(requestBody)
+			res, err := http.Post(ts.URL+"/customers/", "application/json", buffer)
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			// assert status code
+			statusCode := res.StatusCode
+			expectedStatusCode := http.StatusNotAcceptable
+			if statusCode != http.StatusNotAcceptable {
+				t.Fatalf("Status was %d expecting %d", statusCode, expectedStatusCode)
+			}
+
+			// assert error body response
+			responseBody, _ := ioutil.ReadAll(res.Body)
+			errorBody := api.Error{}
+			UnMarshal(responseBody, &errorBody)
+
+			expectedErrorBody := api.Error{}
+			expectedErrBodyFile, _ := ioutil.ReadFile(fmt.Sprintf("../data/validation/%s", tc.expectedResponseFile))
+			UnMarshal(expectedErrBodyFile, &expectedErrorBody)
+
+			if !reflect.DeepEqual(expectedErrorBody, errorBody) {
+				t.Errorf("Expected error response payload %+v got %+v", expectedErrorBody, errorBody)
+			}
+
+		})
+	}
+}
+
+func validationErrorTestCases() []ValidationErrTestCase {
+	return []ValidationErrTestCase{
+		{
+			"firstName",
+			"empty",
+			"create-empty-firstname-request.json",
+			"create-empty-firstname-response.json",
+		},
+		{
+			"firstName",
+			"alphanumeric",
+			"create-nonalphanumeric-firstname-request.json",
+			"create-nonalphanumeric-firstname-response.json",
+		},
+		{
+			"firstName",
+			"long-length",
+			"create-long-length-request.json",
+			"create-long-length-response.json",
+		},
+	}
 }

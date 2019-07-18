@@ -10,7 +10,7 @@ import (
 
 //InsertCustomer returns a mongo implementation for customer inserts
 func InsertCustomer() storage.InsertCustomerFunc {
-	return func(unPersistedCustomer adding.UnPersistedCustomer, genUUIDStr uuid.GenFunc) adding.PersistedCustomer {
+	return func(request adding.ValidatedRequest, genUUIDStr uuid.GenFunc) adding.PersistedCustomer {
 		panic("Mongo insert not implemented yet")
 	}
 }
