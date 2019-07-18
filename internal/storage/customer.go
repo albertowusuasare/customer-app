@@ -9,7 +9,7 @@ import (
 
 // InsertCustomerFunc adds a new customer to a permaent data store.
 // A unique id for the customer will be generated using genUUIDStr
-type InsertCustomerFunc func(unPersistedCustomer adding.UnPersistedCustomer, genUUIDStr uuid.GenFunc) adding.PersistedCustomer
+type InsertCustomerFunc func(request adding.ValidatedRequest, genUUIDStr uuid.GenFunc) adding.PersistedCustomer
 
 // RetrieveCustomerFunc retrieve a customer in the data store corresponding to customerId
 // when error is nil. An error is returned if a customer record cannot be found for customerId.
