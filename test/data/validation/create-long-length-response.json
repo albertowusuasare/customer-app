@@ -1,0 +1,7 @@
+{
+    "code": "invalid_request_body",
+    "message": "One or more input values are invalid. Please re-renter valid values",
+    "params": {
+        "firstName": "FirstName legnth must be less than or equal to 64"
+    }
+}

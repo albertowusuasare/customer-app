@@ -12,16 +12,16 @@ import (
 
 func TestCreate(t *testing.T) {
 	request := mockAddingRequest()
-	expectedId := "724377e7-1567-4756-b18b-1a15ed35d8f4"
-	expectedPersistedCustomer := newPersistedCustomer(expectedId, request)
+	expectedID := "724377e7-1567-4756-b18b-1a15ed35d8f4"
+	expectedPersistedCustomer := newPersistedCustomer(expectedID, request)
 
 	requestValidator := successRequestValidator()
-	genUUIDStr := func() string { return expectedId }
+	genUUIDStr := func() string { return expectedID }
 	insertCustomer := successInsertCustomer()
 	publishCustomerAdded := successCustomerAddedPublisher(expectedPersistedCustomer, t)
 
 	createFunc := Create(requestValidator, genUUIDStr, insertCustomer, publishCustomerAdded)
-	actualPersistedCustomer := createFunc(request)
+	actualPersistedCustomer, _ := createFunc(request)
 
 	if expectedPersistedCustomer != actualPersistedCustomer {
 		t.Errorf("expectedPersistedCustomer=%+v is not equal to actualPersistedCustomer=%+v", expectedPersistedCustomer, actualPersistedCustomer)
@@ -29,8 +29,8 @@ func TestCreate(t *testing.T) {
 
 }
 
-func mockAddingRequest() adding.Request {
-	return adding.Request{
+func mockAddingRequest() adding.UnvalidatedRequest {
+	return adding.UnvalidatedRequest{
 		FirstName:   "John",
 		LastName:    "Doe",
 		NationalId:  "987654321",
@@ -39,7 +39,7 @@ func mockAddingRequest() adding.Request {
 	}
 }
 
-func newPersistedCustomer(id string, r adding.Request) adding.PersistedCustomer {
+func newPersistedCustomer(id string, r adding.UnvalidatedRequest) adding.PersistedCustomer {
 	return adding.PersistedCustomer{
 		CustomerId:  id,
 		FirstName:   r.FirstName,
@@ -51,20 +51,27 @@ func newPersistedCustomer(id string, r adding.Request) adding.PersistedCustomer 
 }
 
 func successRequestValidator() adding.RequestValidatorFunc {
-	return func(r adding.Request) (adding.UnPersistedCustomer, error) {
-		return adding.UnPersistedCustomer(r), nil
+	return func(r adding.UnvalidatedRequest) (adding.ValidatedRequest, error) {
+		firstName, _ := adding.CreateFirstName(r.FirstName)
+		return adding.ValidatedRequest{
+			FirstName:   firstName,
+			LastName:    r.LastName,
+			NationalId:  r.NationalId,
+			PhoneNumber: r.PhoneNumber,
+			AccountId:   r.AccountId,
+		}, nil
 	}
 }
 
 func successInsertCustomer() storage.InsertCustomerFunc {
-	return func(unPersistedCustomer adding.UnPersistedCustomer, genUUIDStr uuid.GenFunc) adding.PersistedCustomer {
+	return func(request adding.ValidatedRequest, genUUIDStr uuid.GenFunc) adding.PersistedCustomer {
 		return adding.PersistedCustomer{
 			CustomerId:  genUUIDStr(),
-			FirstName:   unPersistedCustomer.FirstName,
-			LastName:    unPersistedCustomer.LastName,
-			NationalId:  unPersistedCustomer.NationalId,
-			PhoneNumber: unPersistedCustomer.PhoneNumber,
-			AccountId:   unPersistedCustomer.AccountId,
+			FirstName:   adding.RetrieveFirstName(request.FirstName),
+			LastName:    request.LastName,
+			NationalId:  request.NationalId,
+			PhoneNumber: request.PhoneNumber,
+			AccountId:   request.AccountId,
 		}
 	}
 }
