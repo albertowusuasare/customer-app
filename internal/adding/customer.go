@@ -3,20 +3,25 @@ package adding
 import (
 	"fmt"
 
+	"github.com/albertowusuasare/customer-app/internal/uuid"
 	"github.com/albertowusuasare/customer-app/internal/validation"
 )
 
 type firstName string
 type lastName string
+type customerID uuid.V4
+type nationalID string
+type phoneNumber string
+type accountID uuid.V4
 
 // A Customer is the value of a customer post insert
 type Customer struct {
-	CustomerID  string
-	FirstName   string
-	LastName    string
-	NationalID  string
-	PhoneNumber string
-	AccountID   string
+	CustomerID  customerID
+	FirstName   firstName
+	LastName    lastName
+	NationalID  nationalID
+	PhoneNumber phoneNumber
+	AccountID   accountID
 }
 
 /* Simple type constructors */
@@ -65,5 +70,65 @@ func CreateLastName(v string) (lastName, error) {
 
 // RetrieveLasttName returns the underlying value for a lastName
 func RetrieveLasttName(v lastName) string {
+	return string(v)
+}
+
+// CreateCustomerID and returns a customerID
+func CreateCustomerID(v4UUID uuid.V4) customerID {
+	return customerID(v4UUID)
+}
+
+// RetrieveCustomerID returns the underlying value for a customerID
+func RetrieveCustomerID(v customerID) string {
+	return string(v)
+}
+
+// TODO extra add validation rules
+// CreateNationalID and returns a nationalID
+// An error is returned if v is an invalid nationalID
+func CreateNationalID(v string) (nationalID, error) {
+	if v == "" {
+		return "", fmt.Errorf("NationalID cannot be empty")
+	}
+	return nationalID(v), nil
+}
+
+// RetrieveNationalID returns the underlying value for a nationalID
+func RetrieveNationalID(v nationalID) string {
+	return string(v)
+}
+
+// TODO extra add validation rules
+// CreatePhoneNumber and returns a phoneNumber
+// An error is returned if v is an invalid phoneNumber
+func CreatePhoneNumber(v string) (phoneNumber, error) {
+	if v == "" {
+		return "", fmt.Errorf("PhoneNumber cannot be empty")
+	}
+	return phoneNumber(v), nil
+}
+
+// RetrievePhoneNumber returns the underlying value for a phoneNumber
+func RetrievePhoneNumber(v phoneNumber) string {
+	return string(v)
+}
+
+// TODO extra add validation rules
+// CreateAccountID and returns a phoneNumber
+// An error is returned if v is an invalid accountID
+func CreateAccountID(v string) (accountID, error) {
+	if v == "" {
+		return "", fmt.Errorf("AccountID cannot be empty")
+	}
+
+	if !uuid.IsValidUUID(v) {
+		return "", fmt.Errorf("AccountID must be valid v4 UUID")
+	}
+
+	return accountID(uuid.V4(v)), nil
+}
+
+// RetrieveAccountID returns the underlying value for a nationalID
+func RetrieveAccountID(v accountID) string {
 	return string(v)
 }

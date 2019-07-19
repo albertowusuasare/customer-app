@@ -10,7 +10,7 @@ import (
 
 // Inmem creates a customer app based on in memory data store
 func Inmem() Customer {
-	createWf := workflow.Create(adding.ValidateRequest, uuid.Gen(), inmem.InsertCustomer(), queue.CustomerAddedPublisher())
+	createWf := workflow.Create(adding.ValidateRequest, uuid.GenV4, inmem.InsertCustomer(), queue.CustomerAddedPublisher())
 	retrieveSingleWf := workflow.RetrieveOne(inmem.RetrieveCustomer())
 	retrieveMultiWf := workflow.RetrieveMulti(inmem.RetrieveCustomers())
 	updateWf := workflow.Update(inmem.UpdateCustomer(), queue.CustomerUpdatedPublisher())

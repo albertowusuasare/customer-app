@@ -1,6 +1,10 @@
 package validation
 
-import "unicode"
+import (
+	"unicode"
+
+	"github.com/google/uuid"
+)
 
 // IsUTFAlpahnumeric checks if the string contains only unicode letters and numbers. Empty string is valid.
 func IsUTFAlpahnumeric(s string) bool {
@@ -16,4 +20,10 @@ func IsUTFAlpahnumeric(s string) bool {
 // IsLengthLessOrEqual checks if the string has length less than max
 func IsLengthLessOrEqual(s string, max int) bool {
 	return len(s) <= max
+}
+
+// IsValidUUID checks if a given string is a valid v4 UUID
+func IsValidUUID(u string) bool {
+	_, err := uuid.Parse(u)
+	return err == nil
 }

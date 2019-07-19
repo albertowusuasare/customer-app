@@ -29,29 +29,32 @@ var customerCollection = map[string]CustomerDocument{}
 
 //InsertCustomer returns an imemory implementation for customer inserts
 func InsertCustomer() storage.InsertCustomerFunc {
-	return func(request adding.ValidatedRequest, genUUIDStr uuid.GenFunc) adding.Customer {
-		customerDoc := customerDocumentFromValidatedRequest(request, genUUIDStr)
+	return func(request adding.ValidatedRequest, genV4UUID uuid.GenV4Func) adding.Customer {
+		v4UUID := genV4UUID()
+		customerDoc := customerDocumentFromValidatedRequest(request, string(v4UUID))
+
 		fmt.Printf("Adding customerDoc=%+v to in memory database\n", customerDoc)
 		customerCollection[customerDoc.CustomerID] = customerDoc
+
 		return adding.Customer{
-			CustomerID:  customerDoc.CustomerID,
-			FirstName:   customerDoc.FirstName,
-			LastName:    customerDoc.LastName,
-			NationalID:  customerDoc.NationalID,
-			PhoneNumber: customerDoc.PhoneNumber,
-			AccountID:   customerDoc.AccountID,
+			CustomerID:  adding.CreateCustomerID(v4UUID),
+			FirstName:   request.FirstName,
+			LastName:    request.LastName,
+			NationalID:  request.NationalID,
+			PhoneNumber: request.PhoneNumber,
+			AccountID:   request.AccountID,
 		}
 	}
 }
 
-func customerDocumentFromValidatedRequest(request adding.ValidatedRequest, genUUIDStr uuid.GenFunc) CustomerDocument {
+func customerDocumentFromValidatedRequest(request adding.ValidatedRequest, customerID string) CustomerDocument {
 	return CustomerDocument{
-		CustomerID:       genUUIDStr(),
+		CustomerID:       customerID,
 		FirstName:        adding.RetrieveFirstName(request.FirstName),
 		LastName:         adding.RetrieveLasttName(request.LastName),
-		NationalID:       request.NationalID,
-		PhoneNumber:      request.PhoneNumber,
-		AccountID:        request.AccountID,
+		NationalID:       adding.RetrieveNationalID(request.NationalID),
+		PhoneNumber:      adding.RetrievePhoneNumber(request.PhoneNumber),
+		AccountID:        adding.RetrieveAccountID(request.AccountID),
 		LastModifiedTime: time.Now().Format(time.RFC3339),
 		CreatedTime:      time.Now().Format(time.RFC3339),
 		Version:          0,

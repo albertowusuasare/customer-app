@@ -13,7 +13,7 @@ type CreateFunc func(r adding.UnvalidatedRequest) (adding.Customer, error)
 // Create is the default implementation of the customer create workflow
 func Create(
 	validateRequest adding.RequestValidatorFunc,
-	genUUIDStr uuid.GenFunc,
+	genV4UUID uuid.GenV4Func,
 	insertCustomer storage.InsertCustomerFunc,
 	publishCustomerAdded msg.CustomerAddedPublisherFunc) CreateFunc {
 	return func(request adding.UnvalidatedRequest) (adding.Customer, error) {
@@ -22,7 +22,7 @@ func Create(
 			return adding.Customer{}, err
 
 		}
-		customer := insertCustomer(validatedRequest, genUUIDStr)
+		customer := insertCustomer(validatedRequest, genV4UUID)
 		publishCustomerAdded(customer)
 		return customer, nil
 	}
