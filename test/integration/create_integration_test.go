@@ -12,10 +12,10 @@ import (
 
 	"github.com/albertowusuasare/customer-app/internal/api"
 	"github.com/albertowusuasare/customer-app/internal/app"
-	"github.com/albertowusuasare/customer-app/internal/uuid"
+	"github.com/albertowusuasare/customer-app/internal/validation"
 )
 
-func TestCreateAPI(t *testing.T) {
+func TestCreateResponse(t *testing.T) {
 	app := app.Inmem()
 	ts := httptest.NewServer(api.Handler(app))
 	defer ts.Close()
@@ -76,7 +76,8 @@ func testExpectedResponse(t *testing.T, request []byte, response []byte) {
 	}
 
 	for _, tt := range responseFieldsTests {
-		t.Run(tt.fieldName, func(t *testing.T) {
+		tName := fmt.Sprintf("%s-match", tt.fieldName)
+		t.Run(tName, func(t *testing.T) {
 			a := tt.actual
 			e := tt.expected
 			if a != e {
@@ -95,7 +96,7 @@ func testExpectedResponse(t *testing.T, request []byte, response []byte) {
 
 	t.Run("CustomerIDValidUUID", func(t *testing.T) {
 		customerID := responseDTO.CustomerID
-		if !uuid.IsValidUUID(customerID) {
+		if !validation.IsValidUUID(customerID) {
 			t.Errorf("CustomerID is not a valid v4 UUID. got %s", customerID)
 		}
 	})

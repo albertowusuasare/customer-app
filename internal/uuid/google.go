@@ -2,11 +2,9 @@ package uuid
 
 import "github.com/google/uuid"
 
-// Gen returns a google implementation of uuid generation
-func Gen() GenFunc {
-	return func() string {
-		return uuid.New().String()
-	}
+// GenV4 returns v4 UUID
+func GenV4() V4 {
+	return V4(uuid.New().String())
 }
 
 // IsValidUUID checks if a given string is a valid v4 UUID
