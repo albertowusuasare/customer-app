@@ -15,9 +15,9 @@ type UnvalidatedRequest struct {
 type ValidatedRequest struct {
 	FirstName   firstName
 	LastName    lastName
-	NationalID  string
-	PhoneNumber string
-	AccountID   string
+	NationalID  nationalID
+	PhoneNumber phoneNumber
+	AccountID   accountID
 }
 
 // A RequestValidatorFunc exposes functionaltiy to validate an incoming add request.
@@ -28,6 +28,9 @@ func ValidateRequest(r UnvalidatedRequest) (ValidatedRequest, error) {
 	failedFields := map[validation.FieldName]validation.Message{}
 	firstName, firstNameErr := CreateFirstName(r.FirstName)
 	lastName, lastNameErr := CreateLastName(r.LastName)
+	nationalID, nationalIDErr := CreateNationalID(r.NationalID)
+	phoneNumber, phoneNumberErr := CreatePhoneNumber(r.PhoneNumber)
+	accountID, accountIDErr := CreateAccountID(r.AccountID)
 
 	if firstNameErr != nil {
 		failedFields[validation.FieldName("firstName")] = validation.Message(firstNameErr.Error())
@@ -35,6 +38,18 @@ func ValidateRequest(r UnvalidatedRequest) (ValidatedRequest, error) {
 
 	if lastNameErr != nil {
 		failedFields[validation.FieldName("lastName")] = validation.Message(lastNameErr.Error())
+	}
+
+	if nationalIDErr != nil {
+		failedFields[validation.FieldName("nationalID")] = validation.Message(nationalIDErr.Error())
+	}
+
+	if phoneNumberErr != nil {
+		failedFields[validation.FieldName("phoneNumber")] = validation.Message(phoneNumberErr.Error())
+	}
+
+	if accountIDErr != nil {
+		failedFields[validation.FieldName("accountID")] = validation.Message(accountIDErr.Error())
 	}
 
 	if len(failedFields) != 0 {
@@ -45,8 +60,8 @@ func ValidateRequest(r UnvalidatedRequest) (ValidatedRequest, error) {
 	return ValidatedRequest{
 		FirstName:   firstName,
 		LastName:    lastName,
-		NationalID:  r.NationalID,
-		PhoneNumber: r.PhoneNumber,
-		AccountID:   r.AccountID,
+		NationalID:  nationalID,
+		PhoneNumber: phoneNumber,
+		AccountID:   accountID,
 	}, nil
 }

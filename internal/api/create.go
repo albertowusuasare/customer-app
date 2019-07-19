@@ -40,12 +40,12 @@ func HandleCreate(wf workflow.CreateFunc) http.HandlerFunc {
 		}
 		w.Header().Set("Content-Type", "application/json")
 		createRequest := createRequestFromCreateRequestDTO(requestDTO)
-		peristedCustomer, err := wf(createRequest)
+		customer, err := wf(createRequest)
 		if err != nil {
 			handleWorkflowError(err, w)
 			return
 		}
-		response := createResponseDTOFromCustomer(peristedCustomer)
+		response := createResponseDTOFromCustomer(customer)
 		encodeErr := json.NewEncoder(w).Encode(response)
 		if encodeErr != nil {
 			log.Fatal(encodeErr)
@@ -63,14 +63,14 @@ func createRequestFromCreateRequestDTO(dto CreateRequestDTO) adding.UnvalidatedR
 	}
 }
 
-func createResponseDTOFromCustomer(peristedCustomer adding.Customer) CreateResponseDTO {
+func createResponseDTOFromCustomer(c adding.Customer) CreateResponseDTO {
 	return CreateResponseDTO{
-		CustomerID:  peristedCustomer.CustomerID,
-		FirstName:   peristedCustomer.FirstName,
-		LastName:    peristedCustomer.LastName,
-		NationalID:  peristedCustomer.NationalID,
-		PhoneNumber: peristedCustomer.PhoneNumber,
-		AccountID:   peristedCustomer.AccountID,
+		CustomerID:  adding.RetrieveCustomerID(c.CustomerID),
+		FirstName:   adding.RetrieveFirstName(c.FirstName),
+		LastName:    adding.RetrieveLasttName(c.LastName),
+		NationalID:  adding.RetrieveNationalID(c.NationalID),
+		PhoneNumber: adding.RetrievePhoneNumber(c.PhoneNumber),
+		AccountID:   adding.RetrieveAccountID(c.AccountID),
 	}
 }
 
