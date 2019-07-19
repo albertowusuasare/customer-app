@@ -14,7 +14,7 @@ type UnvalidatedRequest struct {
 // A ValidatedRequest is the value of a customer add request post validation
 type ValidatedRequest struct {
 	FirstName   firstName
-	LastName    string
+	LastName    lastName
 	NationalID  string
 	PhoneNumber string
 	AccountID   string
@@ -26,10 +26,15 @@ type RequestValidatorFunc func(r UnvalidatedRequest) (ValidatedRequest, error)
 // ValidateRequest is the primary validator for incoming customer add requests.
 func ValidateRequest(r UnvalidatedRequest) (ValidatedRequest, error) {
 	failedFields := map[validation.FieldName]validation.Message{}
-	firstName, err := CreateFirstName(r.FirstName)
+	firstName, firstNameErr := CreateFirstName(r.FirstName)
+	lastName, lastNameErr := CreateLastName(r.LastName)
 
-	if err != nil {
-		failedFields[validation.FieldName("firstName")] = validation.Message(err.Error())
+	if firstNameErr != nil {
+		failedFields[validation.FieldName("firstName")] = validation.Message(firstNameErr.Error())
+	}
+
+	if lastNameErr != nil {
+		failedFields[validation.FieldName("lastName")] = validation.Message(lastNameErr.Error())
 	}
 
 	if len(failedFields) != 0 {
@@ -39,7 +44,7 @@ func ValidateRequest(r UnvalidatedRequest) (ValidatedRequest, error) {
 
 	return ValidatedRequest{
 		FirstName:   firstName,
-		LastName:    r.LastName,
+		LastName:    lastName,
 		NationalID:  r.NationalID,
 		PhoneNumber: r.PhoneNumber,
 		AccountID:   r.AccountID,

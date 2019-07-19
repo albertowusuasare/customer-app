@@ -7,6 +7,7 @@ import (
 )
 
 type firstName string
+type lastName string
 
 // A Customer is the value of a customer post insert
 type Customer struct {
@@ -38,7 +39,31 @@ func CreateFirstName(v string) (firstName, error) {
 	return firstName(v), nil
 }
 
-// RetrieveFirstName the underlying value for a firstName
+// RetrieveFirstName returns the underlying value for a firstName
 func RetrieveFirstName(f firstName) string {
 	return string(f)
+}
+
+// CreateLastName validates v and returns a lastname
+// An error is returned if v is an invalid lastname
+// TODO should this be unexported?
+func CreateLastName(v string) (lastName, error) {
+	if v == "" {
+		return "", fmt.Errorf("LastName cannot be empty")
+	}
+
+	if !validation.IsUTFAlpahnumeric(v) {
+		return "", fmt.Errorf("LastName must be alphanumeric")
+	}
+
+	if !validation.IsLengthLessOrEqual(v, 64) {
+		return "", fmt.Errorf("LastName legnth must be less than or equal to 64")
+	}
+
+	return lastName(v), nil
+}
+
+// RetrieveLasttName returns the underlying value for a lastName
+func RetrieveLasttName(v lastName) string {
+	return string(v)
 }

@@ -115,12 +115,13 @@ func TestCreateErrorResponse(t *testing.T) {
 	defer ts.Close()
 
 	testCases := validationErrorTestCases()
+	testDataRelativePath := "../data/validation/create"
 	for _, tc := range testCases {
 		testName := fmt.Sprintf("%s-%s", tc.fieldName, tc.scenario)
 		t.Run(testName, func(t *testing.T) {
 
 			// invoke API
-			requestBody, _ := ioutil.ReadFile(fmt.Sprintf("../data/validation/%s", tc.requestFile))
+			requestBody, _ := ioutil.ReadFile(fmt.Sprintf("%s/%s", testDataRelativePath, tc.requestFile))
 			buffer := bytes.NewBuffer(requestBody)
 			res, err := http.Post(ts.URL+"/customers/", "application/json", buffer)
 			if err != nil {
@@ -140,7 +141,7 @@ func TestCreateErrorResponse(t *testing.T) {
 			UnMarshal(responseBody, &errorBody)
 
 			expectedErrorBody := api.Error{}
-			expectedErrBodyFile, _ := ioutil.ReadFile(fmt.Sprintf("../data/validation/%s", tc.expectedResponseFile))
+			expectedErrBodyFile, _ := ioutil.ReadFile(fmt.Sprintf("%s/%s", testDataRelativePath, tc.expectedResponseFile))
 			UnMarshal(expectedErrBodyFile, &expectedErrorBody)
 
 			if !reflect.DeepEqual(expectedErrorBody, errorBody) {
@@ -168,8 +169,26 @@ func validationErrorTestCases() []ValidationErrTestCase {
 		{
 			"firstName",
 			"long-length",
-			"create-long-length-request.json",
-			"create-long-length-response.json",
+			"create-long-length-firstname-request.json",
+			"create-long-length-firstname-response.json",
+		},
+		{
+			"lastName",
+			"empty",
+			"create-empty-lastname-request.json",
+			"create-empty-lastname-response.json",
+		},
+		{
+			"lastName",
+			"alphanumeric",
+			"create-nonalphanumeric-lastname-request.json",
+			"create-nonalphanumeric-lastname-response.json",
+		},
+		{
+			"lastName",
+			"long-length",
+			"create-long-length-lastname-request.json",
+			"create-long-length-lastname-response.json",
 		},
 	}
 }
