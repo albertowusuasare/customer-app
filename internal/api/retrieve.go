@@ -31,7 +31,7 @@ type CustomerRetrieveErrorDTO struct {
 func HandleRetrieveOne(wf workflow.RetrieveSingleFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
-		customerID := RetrieveCustomerId(r)
+		customerID := RetrieveCustomerID(r)
 		customer, err := wf(customerID)
 		if err != nil {
 			handleRetrieveOneWorkflowError(err, w)
@@ -90,12 +90,12 @@ func customerRetrieveResponseDTOsFromCustomers(customers []retrieving.Customer) 
 
 func customerRetrieveResponseDTOFromCustomer(customer retrieving.Customer) CustomerRetrieveResponseDTO {
 	return CustomerRetrieveResponseDTO{
-		CustomerID:       customer.CustomerId,
+		CustomerID:       customer.CustomerID,
 		FirstName:        customer.FirstName,
 		LastName:         customer.LastName,
-		NationalID:       customer.NationalId,
+		NationalID:       customer.NationalID,
 		PhoneNumber:      customer.PhoneNumber,
-		AccountID:        customer.AccountId,
+		AccountID:        customer.AccountID,
 		LastModifiedTime: customer.LastModifiedTime,
 		CreatedTime:      customer.CreatedTime,
 		Version:          customer.Version,

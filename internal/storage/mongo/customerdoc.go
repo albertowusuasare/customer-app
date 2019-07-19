@@ -10,14 +10,14 @@ import (
 
 //InsertCustomer returns a mongo implementation for customer inserts
 func InsertCustomer() storage.InsertCustomerFunc {
-	return func(request adding.ValidatedRequest, genUUIDStr uuid.GenFunc) adding.PersistedCustomer {
+	return func(request adding.ValidatedRequest, genUUIDStr uuid.GenFunc) adding.Customer {
 		panic("Mongo insert not implemented yet")
 	}
 }
 
 // RetrieveCustomer returns a mongo implementation of customer retrieval
 func RetrieveCustomer() storage.RetrieveCustomerFunc {
-	return func(customerId string) (*retrieving.Customer, error) {
+	return func(customerID string) (*retrieving.Customer, error) {
 		panic("Mongo retrieve not implemented yet")
 	}
 }
@@ -38,7 +38,7 @@ func UpdateCustomer() storage.UpdateCustomerFunc {
 
 //RemoveCustomer returns a mongo  implementation of customer removal
 func RemoveCustomer() storage.RemoveCustomerFunc {
-	return func(customerId string) {
+	return func(customerID string) {
 		panic("Mongo remove not implemented yet")
 	}
 }

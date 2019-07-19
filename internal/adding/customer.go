@@ -8,14 +8,14 @@ import (
 
 type firstName string
 
-// A PersistedCustomer is the value of a customer post database persistence
-type PersistedCustomer struct {
-	CustomerId  string
+// A Customer is the value of a customer post insert
+type Customer struct {
+	CustomerID  string
 	FirstName   string
 	LastName    string
-	NationalId  string
+	NationalID  string
 	PhoneNumber string
-	AccountId   string
+	AccountID   string
 }
 
 /* Simple type constructors */

@@ -14,12 +14,12 @@ import (
 
 // CustomerDocument represents the database entity for a customer
 type CustomerDocument struct {
-	CustomerId       string
+	CustomerID       string
 	FirstName        string
 	LastName         string
-	NationalId       string
+	NationalID       string
 	PhoneNumber      string
-	AccountId        string
+	AccountID        string
 	LastModifiedTime string
 	CreatedTime      string
 	Version          int
@@ -29,29 +29,29 @@ var customerCollection = map[string]CustomerDocument{}
 
 //InsertCustomer returns an imemory implementation for customer inserts
 func InsertCustomer() storage.InsertCustomerFunc {
-	return func(request adding.ValidatedRequest, genUUIDStr uuid.GenFunc) adding.PersistedCustomer {
+	return func(request adding.ValidatedRequest, genUUIDStr uuid.GenFunc) adding.Customer {
 		customerDoc := customerDocumentFromValidatedRequest(request, genUUIDStr)
 		fmt.Printf("Adding customerDoc=%+v to in memory database\n", customerDoc)
-		customerCollection[customerDoc.CustomerId] = customerDoc
-		return adding.PersistedCustomer{
-			CustomerId:  customerDoc.CustomerId,
+		customerCollection[customerDoc.CustomerID] = customerDoc
+		return adding.Customer{
+			CustomerID:  customerDoc.CustomerID,
 			FirstName:   customerDoc.FirstName,
 			LastName:    customerDoc.LastName,
-			NationalId:  customerDoc.NationalId,
+			NationalID:  customerDoc.NationalID,
 			PhoneNumber: customerDoc.PhoneNumber,
-			AccountId:   customerDoc.AccountId,
+			AccountID:   customerDoc.AccountID,
 		}
 	}
 }
 
 func customerDocumentFromValidatedRequest(request adding.ValidatedRequest, genUUIDStr uuid.GenFunc) CustomerDocument {
 	return CustomerDocument{
-		CustomerId:       genUUIDStr(),
+		CustomerID:       genUUIDStr(),
 		FirstName:        adding.RetrieveFirstName(request.FirstName),
 		LastName:         request.LastName,
-		NationalId:       request.NationalId,
+		NationalID:       request.NationalID,
 		PhoneNumber:      request.PhoneNumber,
-		AccountId:        request.AccountId,
+		AccountID:        request.AccountID,
 		LastModifiedTime: time.Now().Format(time.RFC3339),
 		CreatedTime:      time.Now().Format(time.RFC3339),
 		Version:          0,
@@ -74,12 +74,12 @@ func RetrieveCustomer() storage.RetrieveCustomerFunc {
 
 func customerFromCustomerDoc(customerDoc CustomerDocument) retrieving.Customer {
 	return retrieving.Customer{
-		CustomerId:       customerDoc.CustomerId,
+		CustomerID:       customerDoc.CustomerID,
 		FirstName:        customerDoc.FirstName,
 		LastName:         customerDoc.LastName,
-		NationalId:       customerDoc.NationalId,
+		NationalID:       customerDoc.NationalID,
 		PhoneNumber:      customerDoc.PhoneNumber,
-		AccountId:        customerDoc.AccountId,
+		AccountID:        customerDoc.AccountID,
 		LastModifiedTime: customerDoc.LastModifiedTime,
 		CreatedTime:      customerDoc.CreatedTime,
 		Version:          customerDoc.Version,
@@ -101,29 +101,29 @@ func RetrieveCustomers() storage.RetrieveCustomersFunc {
 // UpdateCustomer returns an in memory implementation for customer updates
 func UpdateCustomer() storage.UpdateCustomerFunc {
 	return func(request updating.Request) updating.UpdatedCustomer {
-		piorDocument := customerCollection[request.CustomerId]
+		priorDocument := customerCollection[request.CustomerID]
 
 		customerDoc := CustomerDocument{
-			CustomerId:       piorDocument.CustomerId,
+			CustomerID:       priorDocument.CustomerID,
 			FirstName:        request.FirstName,
 			LastName:         request.LastName,
-			NationalId:       request.NationalId,
+			NationalID:       request.NationalID,
 			PhoneNumber:      request.PhoneNumber,
-			AccountId:        piorDocument.AccountId,
+			AccountID:        priorDocument.AccountID,
 			LastModifiedTime: time.Now().Format(time.RFC3339),
-			CreatedTime:      piorDocument.CreatedTime,
-			Version:          piorDocument.Version + 1,
+			CreatedTime:      priorDocument.CreatedTime,
+			Version:          priorDocument.Version + 1,
 		}
 
-		customerCollection[customerDoc.CustomerId] = customerDoc
+		customerCollection[customerDoc.CustomerID] = customerDoc
 
 		return updating.UpdatedCustomer{
-			CustomerId:       customerDoc.CustomerId,
+			CustomerID:       customerDoc.CustomerID,
 			FirstName:        customerDoc.FirstName,
 			LastName:         customerDoc.LastName,
-			NationalId:       customerDoc.NationalId,
+			NationalID:       customerDoc.NationalID,
 			PhoneNumber:      customerDoc.PhoneNumber,
-			AccountId:        customerDoc.AccountId,
+			AccountID:        customerDoc.AccountID,
 			LastModifiedTime: customerDoc.LastModifiedTime,
 			CreatedTime:      customerDoc.CreatedTime,
 			Version:          customerDoc.Version,
@@ -134,7 +134,7 @@ func UpdateCustomer() storage.UpdateCustomerFunc {
 
 //RemoveCustomer returns an in memory implementation of customer removal
 func RemoveCustomer() storage.RemoveCustomerFunc {
-	return func(customerId string) {
-		delete(customerCollection, customerId)
+	return func(customerID string) {
+		delete(customerCollection, customerID)
 	}
 }

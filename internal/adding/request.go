@@ -6,18 +6,18 @@ import "github.com/albertowusuasare/customer-app/internal/validation"
 type UnvalidatedRequest struct {
 	FirstName   string
 	LastName    string
-	NationalId  string
+	NationalID  string
 	PhoneNumber string
-	AccountId   string
+	AccountID   string
 }
 
 // A ValidatedRequest is the value of a customer add request post validation
 type ValidatedRequest struct {
 	FirstName   firstName
 	LastName    string
-	NationalId  string
+	NationalID  string
 	PhoneNumber string
-	AccountId   string
+	AccountID   string
 }
 
 // A RequestValidatorFunc exposes functionaltiy to validate an incoming add request.
@@ -40,8 +40,8 @@ func ValidateRequest(r UnvalidatedRequest) (ValidatedRequest, error) {
 	return ValidatedRequest{
 		FirstName:   firstName,
 		LastName:    r.LastName,
-		NationalId:  r.NationalId,
+		NationalID:  r.NationalID,
 		PhoneNumber: r.PhoneNumber,
-		AccountId:   r.AccountId,
+		AccountID:   r.AccountID,
 	}, nil
 }

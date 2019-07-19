@@ -31,7 +31,7 @@ func resolveHandler(app app.Customer, w http.ResponseWriter, r *http.Request) (h
 
 	if method == "GET" {
 		uri := r.RequestURI
-		if hasCustomerId(uri) {
+		if hasCustomerID(uri) {
 			return HandleRetrieveOne(app.RetrieveSingleWf), nil
 		}
 		return HandleRetrieveMulti(app.RetrieveMultiWf), nil
@@ -50,13 +50,13 @@ func resolveHandler(app app.Customer, w http.ResponseWriter, r *http.Request) (h
 
 }
 
-func hasCustomerId(requestURI string) bool {
+func hasCustomerID(requestURI string) bool {
 	value := strings.Split(requestURI, "/")[2]
 	_, err := uuid.Parse(value)
 	return err == nil
 }
 
-// RetrieveCustomerId retrieves the customerId from an http request
-func RetrieveCustomerId(r *http.Request) string {
+// RetrieveCustomerID retrieves the customerID from an http request
+func RetrieveCustomerID(r *http.Request) string {
 	return strings.Split(r.RequestURI, "/")[2]
 }

@@ -13,18 +13,18 @@ import (
 type UpdateRequestDTO struct {
 	FirstName   string `json:"firstName"`
 	LastName    string `json:"lastName"`
-	NationalId  string `json:"nationalId"`
+	NationalID  string `json:"nationalId"`
 	PhoneNumber string `json:"phoneNumber"`
 }
 
 // UpdateResponseDTO represents the json structure for a customer update response
 type UpdateResponseDTO struct {
-	CustomerId       string `json:"customerId"`
+	CustomerID       string `json:"customerId"`
 	FirstName        string `json:"firstName"`
 	LastName         string `json:"lastName"`
-	NationalId       string `json:"nationalId"`
+	NationalID       string `json:"nationalId"`
 	PhoneNumber      string `json:"phoneNumber"`
-	AccountId        string `json:"accountId"`
+	AccountID        string `json:"accountId"`
 	LastModifiedTime string `json:"lastModifiedTime"`
 	CreatedTime      string `json:"createdTime"`
 	Version          int    `json:"version"`
@@ -39,9 +39,9 @@ func HandleUpdate(wf workflow.UpdateFunc) http.HandlerFunc {
 		if err != nil {
 			panic(err)
 		}
-		customerId := RetrieveCustomerId(r)
+		customerID := RetrieveCustomerID(r)
 		w.Header().Set("Content-Type", "application/json")
-		request := updateRequestFromUpdateRequestDTO(customerId, requestDTO)
+		request := updateRequestFromUpdateRequestDTO(customerID, requestDTO)
 		log.Printf("Updating customer for request=%+v", request)
 		updatedCustomer := wf(request)
 		response := updateResponseDTOFromUpdatedCustomer(updatedCustomer)
@@ -52,24 +52,24 @@ func HandleUpdate(wf workflow.UpdateFunc) http.HandlerFunc {
 	}
 }
 
-func updateRequestFromUpdateRequestDTO(customerId string, dto UpdateRequestDTO) updating.Request {
+func updateRequestFromUpdateRequestDTO(customerID string, dto UpdateRequestDTO) updating.Request {
 	return updating.Request{
-		CustomerId:  customerId,
+		CustomerID:  customerID,
 		FirstName:   dto.FirstName,
 		LastName:    dto.LastName,
-		NationalId:  dto.NationalId,
+		NationalID:  dto.NationalID,
 		PhoneNumber: dto.PhoneNumber,
 	}
 }
 
 func updateResponseDTOFromUpdatedCustomer(customer updating.UpdatedCustomer) UpdateResponseDTO {
 	return UpdateResponseDTO{
-		CustomerId:       customer.CustomerId,
+		CustomerID:       customer.CustomerID,
 		FirstName:        customer.FirstName,
 		LastName:         customer.LastName,
-		NationalId:       customer.NationalId,
+		NationalID:       customer.NationalID,
 		PhoneNumber:      customer.PhoneNumber,
-		AccountId:        customer.AccountId,
+		AccountID:        customer.AccountID,
 		LastModifiedTime: customer.LastModifiedTime,
 		CreatedTime:      customer.CreatedTime,
 		Version:          customer.Version,

@@ -24,22 +24,22 @@ func TestUpdate(t *testing.T) {
 
 func mockUpdateRequest() updating.Request {
 	return updating.Request{
-		CustomerId:  "415eb201-83ed-48b6-b26c-30271a492e4b",
+		CustomerID:  "415eb201-83ed-48b6-b26c-30271a492e4b",
 		FirstName:   "John",
 		LastName:    "Doe",
-		NationalId:  "9876543",
+		NationalID:  "9876543",
 		PhoneNumber: "987654321",
 	}
 }
 
 func mockExpectedUpdatedCustomer(r updating.Request) updating.UpdatedCustomer {
 	return updating.UpdatedCustomer{
-		CustomerId:       r.CustomerId,
+		CustomerID:       r.CustomerID,
 		FirstName:        r.FirstName,
 		LastName:         r.LastName,
-		NationalId:       r.NationalId,
+		NationalID:       r.NationalID,
 		PhoneNumber:      r.PhoneNumber,
-		AccountId:        "1bcf7c0c-9174-477e-a490-cac4e42af8f2",
+		AccountID:        "1bcf7c0c-9174-477e-a490-cac4e42af8f2",
 		LastModifiedTime: "2019-07-05T01:39:20+01:00",
 		CreatedTime:      "2019-07-05T01:39:20+01:00",
 		Version:          1,
@@ -66,7 +66,7 @@ func publishUpdate(
 			t.Errorf("expectedPublishArgr=%+v is not equal to actualPublishArg=%+v", expectedUpdatedCus, customer)
 		}
 		return msg.Response{
-			MessageId:    "3e1c64d3-9bb6-40f6-8acf-9e38c6acd6cd",
+			MessageID:    "3e1c64d3-9bb6-40f6-8acf-9e38c6acd6cd",
 			Acknowledged: true,
 		}
 	}
