@@ -53,9 +53,10 @@ func newCustomer(ID string, r adding.UnvalidatedRequest) adding.Customer {
 func successRequestValidator() adding.RequestValidatorFunc {
 	return func(r adding.UnvalidatedRequest) (adding.ValidatedRequest, error) {
 		firstName, _ := adding.CreateFirstName(r.FirstName)
+		lastName, _ := adding.CreateLastName(r.LastName)
 		return adding.ValidatedRequest{
 			FirstName:   firstName,
-			LastName:    r.LastName,
+			LastName:    lastName,
 			NationalID:  r.NationalID,
 			PhoneNumber: r.PhoneNumber,
 			AccountID:   r.AccountID,
@@ -68,7 +69,7 @@ func successInsertCustomer() storage.InsertCustomerFunc {
 		return adding.Customer{
 			CustomerID:  genUUIDStr(),
 			FirstName:   adding.RetrieveFirstName(request.FirstName),
-			LastName:    request.LastName,
+			LastName:    adding.RetrieveLasttName(request.LastName),
 			NationalID:  request.NationalID,
 			PhoneNumber: request.PhoneNumber,
 			AccountID:   request.AccountID,

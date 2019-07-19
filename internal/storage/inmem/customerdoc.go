@@ -48,7 +48,7 @@ func customerDocumentFromValidatedRequest(request adding.ValidatedRequest, genUU
 	return CustomerDocument{
 		CustomerID:       genUUIDStr(),
 		FirstName:        adding.RetrieveFirstName(request.FirstName),
-		LastName:         request.LastName,
+		LastName:         adding.RetrieveLasttName(request.LastName),
 		NationalID:       request.NationalID,
 		PhoneNumber:      request.PhoneNumber,
 		AccountID:        request.AccountID,
