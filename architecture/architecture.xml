@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mxfile modified="2019-07-22T19:50:51.016Z" host="www.draw.io" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/75.0.3770.142 Safari/537.36" etag="cnmih9NZDQKhAkcPzRFq" version="11.0.2" type="google" compressed="false">
+  <diagram id="wOXIQ_ZXMYXAN37o7cqV" name="Page-1">
+    <mxGraphModel dx="801" dy="429" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0"/>
+        <mxCell id="1" parent="0"/>
+        <mxCell id="BnTYXSaSWJf2wf_2uQIv-34" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="160" y="120" width="470" height="300" as="geometry"/>
+        </mxCell>
+        <mxCell id="BnTYXSaSWJf2wf_2uQIv-15" value="HTTP API" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="158" y="50" width="462" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="BnTYXSaSWJf2wf_2uQIv-8" value="CUSTOMER APP" style="text;html=1;resizable=0;autosize=1;align=center;verticalAlign=middle;points=[];fillColor=none;strokeColor=none;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="325.59288537549406" y="119.9516129032258" width="110" height="20" as="geometry"/>
+        </mxCell>
+        <mxCell id="BnTYXSaSWJf2wf_2uQIv-31" value="EVENT LISTENER" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="168" y="430" width="462" height="60" as="geometry"/>
+        </mxCell>
+        <mxCell id="BnTYXSaSWJf2wf_2uQIv-32" value="" style="group" vertex="1" connectable="0" parent="1">
+          <mxGeometry x="190" y="250" width="400" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="BnTYXSaSWJf2wf_2uQIv-27" value="" style="group" vertex="1" connectable="0" parent="BnTYXSaSWJf2wf_2uQIv-32">
+          <mxGeometry width="400" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="BnTYXSaSWJf2wf_2uQIv-2" value="CREATE" style="rounded=1;whiteSpace=wrap;html=1;rotation=90;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="BnTYXSaSWJf2wf_2uQIv-27">
+          <mxGeometry width="204.5307443365695" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="BnTYXSaSWJf2wf_2uQIv-21" value="READ" style="rounded=1;whiteSpace=wrap;html=1;rotation=90;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="BnTYXSaSWJf2wf_2uQIv-27">
+          <mxGeometry x="66.01941747572813" width="204.5307443365695" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="BnTYXSaSWJf2wf_2uQIv-22" value="UPDATE" style="rounded=1;whiteSpace=wrap;html=1;rotation=90;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="BnTYXSaSWJf2wf_2uQIv-27">
+          <mxGeometry x="126.8608414239482" width="204.5307443365695" height="30" as="geometry"/>
+        </mxCell>
+        <mxCell id="BnTYXSaSWJf2wf_2uQIv-23" value="DELETE" style="rounded=1;whiteSpace=wrap;html=1;rotation=90;fillColor=#d5e8d4;strokeColor=#82b366;" vertex="1" parent="BnTYXSaSWJf2wf_2uQIv-27">
+          <mxGeometry x="195.4692556634304" width="204.5307443365695" height="30" as="geometry"/>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
