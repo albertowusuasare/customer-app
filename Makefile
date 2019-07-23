@@ -1,40 +1,52 @@
+GO := go
+PKGS :=  $(shell $(GO) list ./...)
+UNIT_TEST_PKGS := $(shell $(GO) list ./... | grep -v /test/integration)
+INTEGRATION_TEST_PKGS := ./test/integration
+
 ARTIFACT_ID := customer-svc
+MAIN_PATH := ./cmd/$(ARTIFACT_ID)
 
-all: deps install test run
+all: format lint build test
 
-
-deps:
-	@echo "Fetching dependencies for project..."
-	go get -v ./...
-
-build:
-	@echo "Building application..."
-	go build ./...
-
-test:
-	@echo "Running all tests..."
-	go test -v ./...
-
-
-install: 
-	@echo "Installing application..."
-	go install ./...
-
-run: 
-	@echo "Running application..."
-	$(ARTIFACT_ID)
-
-clean: 
-	@echo "Removing built artifact $(ARTIFACT_ID)..."
-	rm $(GOPATH)/bin/$(ARTIFACT_ID)
+format:
+	@echo ">> Formatting project ..."
+	@$(GO) fmt $(PKGS)
 
 lint: 
+	@echo ">> Linting project ..."
 	./script/lint.sh
 
-sanity-check: deps lint test
+build:
+	@echo ">> Building application ..."
+	@$(GO) build $(MAIN_PATH)
 
-int-test:
-	go test -v github.com/albertowusuasare/customer-app/test/integration
+deps:
+	@echo ">> Fetching project dependencies ..."
+	@$(GO) get -v $(PKGS)
+
+test: deps
+	@echo ">> Running all tests ..."
+	@$(GO) test -v $(PKGS)
+
+install: 
+	@echo ">> Installing application ..."
+	@$(GO) install $(PKGS)
+
+run: build 
+	@echo ">> Running application ..."
+	./$(ARTIFACT_ID)
+
+clean: 
+	@echo ">> Removing built artifact $(ARTIFACT_ID) ..."
+	rm $(ARTIFACT_ID)
+
+unit-test: deps
+	@echo ">> Running unit tests ..."
+	@$(GO) test -v $(UNIT_TEST_PKGS)
+
+int-test: deps
+	@echo ">> Running integration tests ..."
+	@$(GO) test -v $(INTEGRATION_TEST_PKGS)
 
 # Tagged Artifact build
 
