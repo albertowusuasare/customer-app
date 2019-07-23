@@ -5,5 +5,10 @@ echo "Running golangci-lint"
 cmd="golangci-lint run"
 $cmd
 status=$?
-## take some decision ## 
-[ $status -eq 0 ] && echo "Lint run was successful :)" || echo "Lint run failed :("
+
+if [ $status -eq 0 ]; then
+        echo "Lint run was successful :)"  
+    else
+        echo "Lint run failed :(" 
+        exit 1
+fi
