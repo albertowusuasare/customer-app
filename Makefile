@@ -1,47 +1,52 @@
+GO := go
+PKGS :=  $(shell $(GO) list ./...)
+UNIT_TEST_PKGS := $(shell $(GO) list ./... | grep -v /test/integration)
+INTEGRATION_TEST_PKGS := ./test/integration
+
 ARTIFACT_ID := customer-svc
-.PHONY: all	
-all: deps install test run
+MAIN_PATH := ./cmd/$(ARTIFACT_ID)
 
-.PHONY: deps 
-deps:
-	@echo "Fetching dependencies for project..."
-	go get -v ./...
+all: format lint build test
 
-.PHONY: build
-build:
-	@echo "Building application..."
-	go build ./...
+format:
+	@echo ">> Formatting project ..."
+	@$(GO) fmt $(PKGS)
 
-.PHONY: test
-test:
-	@echo "Running all tests..."
-	go test -v ./...
-
-.PHONY: install
-install: 
-	@echo "Installing application..."
-	go install ./...
-
-.PHONY: run	
-run: 
-	@echo "Running application..."
-	$(ARTIFACT_ID)
-
-.PHONY: clean
-clean: 
-	@echo "Removing built artifact $(ARTIFACT_ID)..."
-	rm $(GOPATH)/bin/$(ARTIFACT_ID)
-
-.PHONY: lint
 lint: 
+	@echo ">> Linting project ..."
 	./script/lint.sh
 
-.PHONY: sanity-check
-sanity-check: deps lint test
+build:
+	@echo ">> Building application ..."
+	@$(GO) build $(MAIN_PATH)
 
-.PHONY: int-test
-int-test:
-	go test -v github.com/albertowusuasare/customer-app/test/integration
+deps:
+	@echo ">> Fetching project dependencies ..."
+	@$(GO) get -v $(PKGS)
+
+test: deps
+	@echo ">> Running all tests ..."
+	@$(GO) test -v $(PKGS)
+
+install: 
+	@echo ">> Installing application ..."
+	@$(GO) install $(PKGS)
+
+run: build 
+	@echo ">> Running application ..."
+	./$(ARTIFACT_ID)
+
+clean: 
+	@echo ">> Removing built artifact $(ARTIFACT_ID) ..."
+	rm $(ARTIFACT_ID)
+
+unit-test: deps
+	@echo ">> Running unit tests ..."
+	@$(GO) test -v $(UNIT_TEST_PKGS)
+
+int-test: deps
+	@echo ">> Running integration tests ..."
+	@$(GO) test -v $(INTEGRATION_TEST_PKGS)
 
 # Tagged Artifact build
 
@@ -53,46 +58,47 @@ int-test:
 TAG := $(shell git rev-parse --short=12 HEAD)
 TAGGED_ARTIFACT := $(ARTIFACT_ID)_$(TAG)
 
-.PHONY: all_tag
+
 all_tag: build_tag run_tag
-.PHONY: build_tag
+
 build_tag:
 	@echo "Building $(TAGGED_ARTIFACT) ..."
 	go build -o $(TAGGED_ARTIFACT) ./cmd/customer-svc
 
-.PHONY: run_tag
+
 run_tag:
 	@echo "Running $(TAGGED_ARTIFACT) ..."
 	./$(TAGGED_ARTIFACT)
 
-.PHONY: clean_tag
+
 clean_tag: 
 	@echo "Cleaning $(TAGGED_ARTIFACT) ..."
 	rm $(TAGGED_ARTIFACT)
 
 ## Docker deploy: builds, tags a google container registry (gcr) tag and deploys the image to gcr
-.PHONY: docker_deploy
+
 docker_deploy: docker_build docker_tag docker_push
 
 ## Docker build: builds a docker image with tag 'ARTIFACT_ID'
-.PHONY: docker_build
+
 docker_build:
 	@echo "Building docker image ..."
 	docker build --tag=$(ARTIFACT_ID) .
 
-.PHONY: docker_tag
+
 GCR_IMAGE_ID := gcr.io/onua-246719/$(ARTIFACT_ID):$(TAG)
 docker_tag:
 	@echo "Building docker gcr image ..."
 	docker tag $(ARTIFACT_ID) $(GCR_IMAGE_ID)
 
-.PHONY: docker_push
 docker_push:
 	@echo "Pushing image to google container registry ..."
 	gcloud auth configure-docker
 	docker push $(GCR_IMAGE_ID)
 
-.PHONY: docker_run
+
 docker_run:
 	@echo "Running docker ..."
 	docker run -p 5090:5090 $(GCR_IMAGE_ID)
+
+.PHONY: all deps build test install run	clean lint sanity-check int-test all_tag build_tag run_tag clean_tag docker_deploy docker_build docker_tag docker_push docker_run

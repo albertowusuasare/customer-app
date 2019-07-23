@@ -2,7 +2,22 @@
 A simple CRUD application to aid in learning go
 
 ### Running the app
-``` make install run```
+``` make run ```
+
+### Running all tests
+``` make test ```
+
+### Running all unit tests
+``` make unit-test ```
+
+### Running all integration tests
+``` make int-test ```
+
+### Running pre commit sanity check
+``` make ```
+
+### Removing application binaries
+``` make clean ```
 
 ### Deploy docker image to registry
 ``` make docker_deploy ```
@@ -10,15 +25,6 @@ A simple CRUD application to aid in learning go
 ### Run docker app
 ``` make docker_run ```
 
-### Running all tests
-``` make test```
-
-### Running integration tests
-```make int-test```
-
 ### Retrieving go report card
-``` https://goreportcard.com/report/github.com/albertowusuasare/customer-app```
-
-### Running pre commit sanity check script
-``` make sanity-check```
+``` https://goreportcard.com/report/github.com/albertowusuasare/customer-app ```
 
