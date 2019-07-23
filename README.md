@@ -1,4 +1,4 @@
-# customer-app
+# customer-app [![Build Status](https://travis-ci.com/albertowusuasare/customer-app.svg?branch=master)](https://travis-ci.com/albertowusuasare/customer-app) [![Go Report Card](https://goreportcard.com/badge/github.com/albertowusuasare/customer-app)](https://goreportcard.com/report/github.com/albertowusuasare/customer-app)
 A simple CRUD application to aid in learning go
 
 ### Running the app
@@ -24,7 +24,4 @@ A simple CRUD application to aid in learning go
 
 ### Run docker app
 ``` make docker_run ```
-
-### Retrieving go report card
-``` https://goreportcard.com/report/github.com/albertowusuasare/customer-app ```
 
