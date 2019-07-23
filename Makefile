@@ -12,17 +12,17 @@ format:
 	@echo ">> Formatting project ..."
 	@$(GO) fmt $(PKGS)
 
-lint: 
+deps:
+	@echo ">> Fetching project dependencies ..."
+	@$(GO) get -v $(PKGS)
+
+lint: deps 
 	@echo ">> Linting project ..."
 	./script/lint.sh
 
 build:
 	@echo ">> Building application ..."
 	@$(GO) build $(MAIN_PATH)
-
-deps:
-	@echo ">> Fetching project dependencies ..."
-	@$(GO) get -v $(PKGS)
 
 test: deps
 	@echo ">> Running all tests ..."
