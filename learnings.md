@@ -21,3 +21,4 @@
 - Slack integration
 - Incident management
 - Git Flow
+- Kubernetes vs Serverless
