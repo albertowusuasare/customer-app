@@ -1,0 +1,4 @@
+github.com/albertowusuasare/customer-app v0.0.3 h1:uioTlZQo60+rvaAkX7J3s35VlWtjcNHNK2CWK8rIcnQ=
+github.com/albertowusuasare/customer-app v0.0.3/go.mod h1:XETGW6CJn8qaEhYQwMHl8QC/xpAPPrGaQFDb403exb4=
+github.com/google/uuid v1.1.1 h1:Gkbcsh/GbpXz7lPftLA3P6TYMwjCLYm83jiFQZF/3gY=
+github.com/google/uuid v1.1.1/go.mod h1:TIyPZe4MgqvfeYDBFedMoGGpEw/LqOeaOT+nhxU+yHo=
