@@ -19,6 +19,9 @@ A simple CRUD application to aid in learning go
 ### Removing application binaries
 ``` make clean ```
 
+### Building Go module 
+``` make module ```
+
 ### Deploy docker image to registry
 ``` make docker_deploy ```
 
