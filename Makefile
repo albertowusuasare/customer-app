@@ -48,6 +48,9 @@ int-test: deps
 	@echo ">> Running integration tests ..."
 	@$(GO) test -v $(INTEGRATION_TEST_PKGS)
 
+module:
+	@echo ">> Creating go module"
+	./script/gomod.sh	
 # Tagged Artifact build
 
 # For the purposes of deployments it is sometimes necessary to tag a built artifact. 
