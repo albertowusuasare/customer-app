@@ -9,6 +9,7 @@ import (
 	"github.com/albertowusuasare/customer-app/internal/adding"
 	"github.com/albertowusuasare/customer-app/internal/retrieving"
 	"github.com/albertowusuasare/customer-app/internal/storage"
+	"github.com/albertowusuasare/customer-app/internal/updating"
 	"github.com/albertowusuasare/customer-app/internal/uuid"
 	"google.golang.org/api/iterator"
 )
@@ -129,5 +130,50 @@ func RetrieveCustomerDocs(ctx context.Context, client *firestore.Client) storage
 			customers = append(customers, customer)
 		}
 		return customers
+	}
+}
+
+// UpdateCustomerDoc returns a firestore implementation for customer updates
+func UpdateCustomerDoc(ctx context.Context, client *firestore.Client) storage.UpdateCustomerFunc {
+	return func(request updating.Request) updating.UpdatedCustomer {
+		customerID := request.CustomerID
+		priorDocument, retrieveErr := RetrieveCustomerDoc(ctx, client)(customerID)
+
+		if retrieveErr != nil {
+			log.Fatal(retrieveErr)
+		}
+
+		customerDoc := CustomerDocument{
+			CustomerID:       customerID,
+			FirstName:        request.FirstName,
+			LastName:         request.LastName,
+			NationalID:       request.NationalID,
+			PhoneNumber:      request.PhoneNumber,
+			AccountID:        priorDocument.AccountID,
+			LastModifiedTime: time.Now().Format(time.RFC3339),
+			CreatedTime:      priorDocument.CreatedTime,
+			Version:          priorDocument.Version + 1,
+		}
+
+		customers := client.Collection(collectionName)
+		customerDocRef := customers.Doc(customerID)
+		_, err := customerDocRef.Set(ctx, customerDoc)
+
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		return updating.UpdatedCustomer{
+			CustomerID:       customerDoc.CustomerID,
+			FirstName:        customerDoc.FirstName,
+			LastName:         customerDoc.LastName,
+			NationalID:       customerDoc.NationalID,
+			PhoneNumber:      customerDoc.PhoneNumber,
+			AccountID:        customerDoc.AccountID,
+			LastModifiedTime: customerDoc.LastModifiedTime,
+			CreatedTime:      customerDoc.CreatedTime,
+			Version:          customerDoc.Version,
+		}
+
 	}
 }

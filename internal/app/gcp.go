@@ -22,7 +22,9 @@ func GoogleApp(ctx context.Context, firestoreClient *firestore.Client) Customer 
 
 	firestoreRetrieveMulti := google.RetrieveCustomerDocs(ctx, firestoreClient)
 	retrieveMultiWf := workflow.RetrieveMulti(firestoreRetrieveMulti)
-	updateWf := workflow.Update(inmem.UpdateCustomer(), queue.CustomerUpdatedPublisher())
+
+	firestoreUpdate := google.UpdateCustomerDoc(ctx, firestoreClient)
+	updateWf := workflow.Update(firestoreUpdate, queue.CustomerUpdatedPublisher())
 	removeWf := workflow.Remove(inmem.RemoveCustomer(), queue.CustomerRemovedPublisher())
 
 	return Customer{
