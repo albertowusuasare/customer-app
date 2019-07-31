@@ -177,3 +177,15 @@ func UpdateCustomerDoc(ctx context.Context, client *firestore.Client) storage.Up
 
 	}
 }
+
+// DeleteCustomerDoc returns a firestore implementation of customer removal
+func DeleteCustomerDoc(ctx context.Context, firestoreClient *firestore.Client) storage.RemoveCustomerFunc {
+	return func(customerID string) {
+		customers := firestoreClient.Collection(collectionName)
+		customerDocRef := customers.Doc(customerID)
+		_, err := customerDocRef.Delete(ctx)
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
+}

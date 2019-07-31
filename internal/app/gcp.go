@@ -7,7 +7,6 @@ import (
 	"github.com/albertowusuasare/customer-app/internal/adding"
 	queue "github.com/albertowusuasare/customer-app/internal/msg/inmem"
 	"github.com/albertowusuasare/customer-app/internal/storage/google"
-	"github.com/albertowusuasare/customer-app/internal/storage/inmem"
 	"github.com/albertowusuasare/customer-app/internal/uuid"
 	"github.com/albertowusuasare/customer-app/internal/workflow"
 )
@@ -25,7 +24,9 @@ func GoogleApp(ctx context.Context, firestoreClient *firestore.Client) Customer 
 
 	firestoreUpdate := google.UpdateCustomerDoc(ctx, firestoreClient)
 	updateWf := workflow.Update(firestoreUpdate, queue.CustomerUpdatedPublisher())
-	removeWf := workflow.Remove(inmem.RemoveCustomer(), queue.CustomerRemovedPublisher())
+
+	firestoreRemove := google.DeleteCustomerDoc(ctx, firestoreClient)
+	removeWf := workflow.Remove(firestoreRemove, queue.CustomerRemovedPublisher())
 
 	return Customer{
 		CreateWf:         createWf,
