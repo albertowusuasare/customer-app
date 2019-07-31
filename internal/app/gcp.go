@@ -19,7 +19,9 @@ func GoogleApp(ctx context.Context, firestoreClient *firestore.Client) Customer 
 
 	firestoreRetrieve := google.RetrieveCustomerDoc(ctx, firestoreClient)
 	retrieveSingleWf := workflow.RetrieveOne(firestoreRetrieve)
-	retrieveMultiWf := workflow.RetrieveMulti(inmem.RetrieveCustomers())
+
+	firestoreRetrieveMulti := google.RetrieveCustomerDocs(ctx, firestoreClient)
+	retrieveMultiWf := workflow.RetrieveMulti(firestoreRetrieveMulti)
 	updateWf := workflow.Update(inmem.UpdateCustomer(), queue.CustomerUpdatedPublisher())
 	removeWf := workflow.Remove(inmem.RemoveCustomer(), queue.CustomerRemovedPublisher())
 

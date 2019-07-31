@@ -10,7 +10,10 @@ import (
 	"github.com/albertowusuasare/customer-app/internal/retrieving"
 	"github.com/albertowusuasare/customer-app/internal/storage"
 	"github.com/albertowusuasare/customer-app/internal/uuid"
+	"google.golang.org/api/iterator"
 )
+
+const collectionName string = "Customers"
 
 // CustomerDocument represents the firestore database entity for a customer
 type CustomerDocument struct {
@@ -32,7 +35,7 @@ func CreateCustomerDoc(ctx context.Context, client *firestore.Client) storage.In
 		customerID := string(v4UUID)
 		customerDoc := customerDocumentFromValidatedRequest(request, customerID)
 
-		customers := client.Collection("Customer")
+		customers := client.Collection(collectionName)
 		customerDocRef := customers.Doc(customerID)
 		_, err := customerDocRef.Create(ctx, customerDoc)
 
@@ -65,12 +68,12 @@ func customerDocumentFromValidatedRequest(request adding.ValidatedRequest, custo
 	}
 }
 
-// RetrieveCustomerDoc returns an in memory implementation of customer retrieval
+// RetrieveCustomerDoc returns a firestore implementation of customer retrieval
 func RetrieveCustomerDoc(ctx context.Context, client *firestore.Client) storage.RetrieveCustomerFunc {
 	return func(customerID string) (*retrieving.Customer, error) {
 		log.Printf("Retrieving customerId=%s from google firestore", customerID)
 
-		customers := client.Collection("Customer")
+		customers := client.Collection(collectionName)
 		customerDocRef := customers.Doc(customerID)
 		customerEntity, err := customerDocRef.Get(ctx)
 		if err != nil {
@@ -99,5 +102,32 @@ func customerFromCustomerDoc(customerDoc CustomerDocument) retrieving.Customer {
 		LastModifiedTime: customerDoc.LastModifiedTime,
 		CreatedTime:      customerDoc.CreatedTime,
 		Version:          customerDoc.Version,
+	}
+}
+
+// RetrieveCustomerDocs returns firestore implementation of customers retrieval
+func RetrieveCustomerDocs(ctx context.Context, client *firestore.Client) storage.RetrieveCustomersFunc {
+	return func(request retrieving.MultiRequest) []retrieving.Customer {
+		customers := []retrieving.Customer{}
+		iter := client.Collection(collectionName).Documents(ctx)
+		defer iter.Stop()
+		for {
+			customerEntity, err := iter.Next()
+			if err == iterator.Done {
+				break
+			}
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			var customerDoc CustomerDocument
+			if err := customerEntity.DataTo(&customerDoc); err != nil {
+				log.Fatal("Unable to convert customer entity to struct")
+			}
+
+			customer := customerFromCustomerDoc(customerDoc)
+			customers = append(customers, customer)
+		}
+		return customers
 	}
 }
