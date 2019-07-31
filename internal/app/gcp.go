@@ -14,9 +14,11 @@ import (
 
 // GoogleApp creates a customer app based on in memory data store
 func GoogleApp(ctx context.Context, firestoreClient *firestore.Client) Customer {
-	insertFunc := google.CreateCustomerDoc(ctx, firestoreClient)
-	createWf := workflow.Create(adding.ValidateRequest, uuid.GenV4, insertFunc, queue.CustomerAddedPublisher())
-	retrieveSingleWf := workflow.RetrieveOne(inmem.RetrieveCustomer())
+	firestoreInsert := google.CreateCustomerDoc(ctx, firestoreClient)
+	createWf := workflow.Create(adding.ValidateRequest, uuid.GenV4, firestoreInsert, queue.CustomerAddedPublisher())
+
+	firestoreRetrieve := google.RetrieveCustomerDoc(ctx, firestoreClient)
+	retrieveSingleWf := workflow.RetrieveOne(firestoreRetrieve)
 	retrieveMultiWf := workflow.RetrieveMulti(inmem.RetrieveCustomers())
 	updateWf := workflow.Update(inmem.UpdateCustomer(), queue.CustomerUpdatedPublisher())
 	removeWf := workflow.Remove(inmem.RemoveCustomer(), queue.CustomerRemovedPublisher())
