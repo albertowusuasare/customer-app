@@ -12,7 +12,7 @@ type Response struct {
 }
 
 // CustomerAddedPublisherFunc publishes an event for the addition of a customer
-type CustomerAddedPublisherFunc func(customer adding.Customer) Response
+type CustomerAddedPublisherFunc func(customer *adding.Customer) Response
 
 // CustomerUpdatedPublisherFunc publishes an event for an update to a customer
 type CustomerUpdatedPublisherFunc func(customer updating.UpdatedCustomer) Response
