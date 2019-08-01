@@ -5,12 +5,11 @@ import (
 	"github.com/albertowusuasare/customer-app/internal/retrieving"
 	"github.com/albertowusuasare/customer-app/internal/storage"
 	"github.com/albertowusuasare/customer-app/internal/updating"
-	"github.com/albertowusuasare/customer-app/internal/uuid"
 )
 
 //InsertCustomer returns a mongo implementation for customer inserts
 func InsertCustomer() storage.InsertCustomerFunc {
-	return func(request adding.ValidatedRequest, genV4UUID uuid.GenV4Func) adding.Customer {
+	return func(c *adding.Customer) error {
 		panic("Mongo insert not implemented yet")
 	}
 }

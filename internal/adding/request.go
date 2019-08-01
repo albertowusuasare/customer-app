@@ -13,11 +13,11 @@ type UnvalidatedRequest struct {
 
 // A ValidatedRequest is the value of a customer add request post validation
 type ValidatedRequest struct {
-	FirstName   firstName
-	LastName    lastName
-	NationalID  nationalID
-	PhoneNumber phoneNumber
-	AccountID   accountID
+	firstName   FirstName
+	lastName    LastName
+	nationalID  NationalID
+	phoneNumber PhoneNumber
+	accountID   AccountID
 }
 
 // A RequestValidatorFunc exposes functionaltiy to validate an incoming add request.
@@ -58,10 +58,10 @@ func ValidateRequest(r UnvalidatedRequest) (ValidatedRequest, error) {
 	}
 
 	return ValidatedRequest{
-		FirstName:   firstName,
-		LastName:    lastName,
-		NationalID:  nationalID,
-		PhoneNumber: phoneNumber,
-		AccountID:   accountID,
+		firstName:   firstName,
+		lastName:    lastName,
+		nationalID:  nationalID,
+		phoneNumber: phoneNumber,
+		accountID:   accountID,
 	}, nil
 }

@@ -8,6 +8,7 @@ import (
 	"github.com/albertowusuasare/customer-app/internal/adding"
 	"github.com/albertowusuasare/customer-app/internal/validation"
 	"github.com/albertowusuasare/customer-app/internal/workflow"
+	"github.com/pkg/errors"
 )
 
 // CreateRequestDTO represents the json structure for a customer create request
@@ -45,7 +46,7 @@ func HandleCreate(wf workflow.CreateFunc) http.HandlerFunc {
 			handleWorkflowError(err, w)
 			return
 		}
-		response := createResponseDTOFromCustomer(customer)
+		response := createResponseDTOFromCustomer(*customer)
 		encodeErr := json.NewEncoder(w).Encode(response)
 		if encodeErr != nil {
 			log.Fatal(encodeErr)
@@ -65,21 +66,22 @@ func createRequestFromCreateRequestDTO(dto CreateRequestDTO) adding.UnvalidatedR
 
 func createResponseDTOFromCustomer(c adding.Customer) CreateResponseDTO {
 	return CreateResponseDTO{
-		CustomerID:  adding.RetrieveCustomerID(c.CustomerID),
-		FirstName:   adding.RetrieveFirstName(c.FirstName),
-		LastName:    adding.RetrieveLasttName(c.LastName),
-		NationalID:  adding.RetrieveNationalID(c.NationalID),
-		PhoneNumber: adding.RetrievePhoneNumber(c.PhoneNumber),
-		AccountID:   adding.RetrieveAccountID(c.AccountID),
+		CustomerID:  string(c.RetrieveCustomerID()),
+		FirstName:   string(c.RetrieveFirstName()),
+		LastName:    string(c.RetrieveLastName()),
+		NationalID:  string(c.RetrieveNationalID()),
+		PhoneNumber: string(c.RetrievePhoneNumber()),
+		AccountID:   string(c.RetrieveAccountID()),
 	}
 }
 
 func handleWorkflowError(err error, w http.ResponseWriter) {
-	if !validation.IsFieldValidationError(err) {
+	cause := errors.Cause(err)
+	if !validation.IsFieldValidationError(cause) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	fields, _ := validation.GetFailedValidationFields(err)
+	fields, _ := validation.GetFailedValidationFields(cause)
 	params := map[string]string{}
 
 	for k, v := range fields {
