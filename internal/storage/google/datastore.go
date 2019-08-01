@@ -10,7 +10,7 @@ import (
 	"github.com/albertowusuasare/customer-app/internal/retrieving"
 	"github.com/albertowusuasare/customer-app/internal/storage"
 	"github.com/albertowusuasare/customer-app/internal/updating"
-	"github.com/albertowusuasare/customer-app/internal/uuid"
+	"github.com/pkg/errors"
 	"google.golang.org/api/iterator"
 )
 
@@ -31,41 +31,29 @@ type CustomerDocument struct {
 
 // CreateCustomerDoc inserts a customer document into google firestore
 func CreateCustomerDoc(ctx context.Context, client *firestore.Client) storage.InsertCustomerFunc {
-	return func(request adding.ValidatedRequest, genV4UUID uuid.GenV4Func) adding.Customer {
-		v4UUID := genV4UUID()
-		customerID := string(v4UUID)
-		customerDoc := customerDocumentFromValidatedRequest(request, customerID)
+	return func(c *adding.Customer) error {
+		cID := string(c.RetrieveCustomerID())
+		customerDoc := CustomerDocument{
+			CustomerID:       string(c.RetrieveCustomerID()),
+			FirstName:        string(c.RetrieveFirstName()),
+			LastName:         string(c.RetrieveLastName()),
+			NationalID:       string(c.RetrieveNationalID()),
+			PhoneNumber:      string(c.RetrievePhoneNumber()),
+			AccountID:        string(c.RetrieveAccountID()),
+			LastModifiedTime: time.Now().Format(time.RFC3339),
+			CreatedTime:      time.Now().Format(time.RFC3339),
+			Version:          0,
+		}
 
 		customers := client.Collection(collectionName)
-		customerDocRef := customers.Doc(customerID)
+		customerDocRef := customers.Doc(cID)
 		_, err := customerDocRef.Create(ctx, customerDoc)
 
 		if err != nil {
-			log.Fatal(err)
+			return errors.Wrap(err, "Firestore customer insert failure")
 		}
 
-		return adding.Customer{
-			CustomerID:  adding.CreateCustomerID(v4UUID),
-			FirstName:   request.FirstName,
-			LastName:    request.LastName,
-			NationalID:  request.NationalID,
-			PhoneNumber: request.PhoneNumber,
-			AccountID:   request.AccountID,
-		}
-	}
-}
-
-func customerDocumentFromValidatedRequest(request adding.ValidatedRequest, customerID string) CustomerDocument {
-	return CustomerDocument{
-		CustomerID:       customerID,
-		FirstName:        adding.RetrieveFirstName(request.FirstName),
-		LastName:         adding.RetrieveLasttName(request.LastName),
-		NationalID:       adding.RetrieveNationalID(request.NationalID),
-		PhoneNumber:      adding.RetrievePhoneNumber(request.PhoneNumber),
-		AccountID:        adding.RetrieveAccountID(request.AccountID),
-		LastModifiedTime: time.Now().Format(time.RFC3339),
-		CreatedTime:      time.Now().Format(time.RFC3339),
-		Version:          0,
+		return nil
 	}
 }
 

@@ -9,7 +9,6 @@ import (
 	"github.com/albertowusuasare/customer-app/internal/retrieving"
 	"github.com/albertowusuasare/customer-app/internal/storage"
 	"github.com/albertowusuasare/customer-app/internal/updating"
-	"github.com/albertowusuasare/customer-app/internal/uuid"
 )
 
 // CustomerDocument represents the database entity for a customer
@@ -29,35 +28,24 @@ var customerCollection = map[string]CustomerDocument{}
 
 //InsertCustomer returns an imemory implementation for customer inserts
 func InsertCustomer() storage.InsertCustomerFunc {
-	return func(request adding.ValidatedRequest, genV4UUID uuid.GenV4Func) adding.Customer {
-		v4UUID := genV4UUID()
-		customerDoc := customerDocumentFromValidatedRequest(request, string(v4UUID))
+	return func(c *adding.Customer) error {
+
+		customerDoc := CustomerDocument{
+			CustomerID:       string(c.RetrieveCustomerID()),
+			FirstName:        string(c.RetrieveFirstName()),
+			LastName:         string(c.RetrieveLastName()),
+			NationalID:       string(c.RetrieveNationalID()),
+			PhoneNumber:      string(c.RetrievePhoneNumber()),
+			AccountID:        string(c.RetrieveAccountID()),
+			LastModifiedTime: time.Now().Format(time.RFC3339),
+			CreatedTime:      time.Now().Format(time.RFC3339),
+			Version:          0,
+		}
 
 		fmt.Printf("Adding customerDoc=%+v to in memory database\n", customerDoc)
 		customerCollection[customerDoc.CustomerID] = customerDoc
 
-		return adding.Customer{
-			CustomerID:  adding.CreateCustomerID(v4UUID),
-			FirstName:   request.FirstName,
-			LastName:    request.LastName,
-			NationalID:  request.NationalID,
-			PhoneNumber: request.PhoneNumber,
-			AccountID:   request.AccountID,
-		}
-	}
-}
-
-func customerDocumentFromValidatedRequest(request adding.ValidatedRequest, customerID string) CustomerDocument {
-	return CustomerDocument{
-		CustomerID:       customerID,
-		FirstName:        adding.RetrieveFirstName(request.FirstName),
-		LastName:         adding.RetrieveLasttName(request.LastName),
-		NationalID:       adding.RetrieveNationalID(request.NationalID),
-		PhoneNumber:      adding.RetrievePhoneNumber(request.PhoneNumber),
-		AccountID:        adding.RetrieveAccountID(request.AccountID),
-		LastModifiedTime: time.Now().Format(time.RFC3339),
-		CreatedTime:      time.Now().Format(time.RFC3339),
-		Version:          0,
+		return nil
 	}
 }
 

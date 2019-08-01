@@ -10,11 +10,11 @@ import (
 
 // CustomerAddedPublisher returns an in memory customer add publisher
 func CustomerAddedPublisher() msg.CustomerAddedPublisherFunc {
-	return func(c adding.Customer) msg.Response {
+	return func(c *adding.Customer) msg.Response {
 		publisher := func(messageID string) {
 			log.Printf("Publishing customer add event with messageID=%+s", messageID)
 		}
-		return publish(c, publisher)
+		return publish(*c, publisher)
 	}
 }
 

@@ -4,12 +4,11 @@ import (
 	"github.com/albertowusuasare/customer-app/internal/adding"
 	"github.com/albertowusuasare/customer-app/internal/retrieving"
 	"github.com/albertowusuasare/customer-app/internal/updating"
-	"github.com/albertowusuasare/customer-app/internal/uuid"
 )
 
 // InsertCustomerFunc adds a new customer to a permaent data store.
-// A unique ID for the customer will be generated using genUUIDStr
-type InsertCustomerFunc func(request adding.ValidatedRequest, genV4UUID uuid.GenV4Func) adding.Customer
+// An error is returned if an unexpected failure happens during the insert
+type InsertCustomerFunc func(c *adding.Customer) error
 
 // RetrieveCustomerFunc retrieve a customer in the data store corresponding to customerID
 // when error is nil. An error is returned if a customer record cannot be found for customerID.
