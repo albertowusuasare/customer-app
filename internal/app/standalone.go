@@ -8,11 +8,23 @@ import (
 	"github.com/google/uuid"
 )
 
+// StandAloneFunc creates a new instance of the stand alone  application
+type StandAloneFunc func() StandAlone
+
+// StandAlone encapsulates all the apps as a single standalone app
+type StandAlone struct {
+	CreateHandler        http.HandlerFunc
+	RetrieveOneHandler   http.HandlerFunc
+	RetrieveMultiHandler http.HandlerFunc
+	UpdateHandler        http.HandlerFunc
+	RemoveHandler        http.HandlerFunc
+}
+
 // HandlerFunc returns an entry point http handler for the entire application
-type HandlerFunc func(app Customer) http.Handler
+type HandlerFunc func(app StandAlone) http.Handler
 
 // Handler is the default http handler for the application
-func Handler(app Customer) http.Handler {
+func Handler(app StandAlone) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		handler, err := resolveHandler(app, w, r)
 		if err != nil {
@@ -22,27 +34,27 @@ func Handler(app Customer) http.Handler {
 	})
 }
 
-func resolveHandler(app Customer, w http.ResponseWriter, r *http.Request) (http.Handler, error) {
+func resolveHandler(app StandAlone, w http.ResponseWriter, r *http.Request) (http.Handler, error) {
 	method := r.Method
 	if method == "POST" {
-		return HandleCreate(app.CreateWf), nil
+		return app.CreateHandler, nil
 	}
 
 	if method == "GET" {
 		uri := r.RequestURI
 		if hasCustomerID(uri) {
-			return HandleRetrieveOne(app.RetrieveSingleWf), nil
+			return app.RetrieveOneHandler, nil
 		}
-		return HandleRetrieveMulti(app.RetrieveMultiWf), nil
+		return app.RetrieveMultiHandler, nil
 
 	}
 
 	if method == "PUT" {
-		return HandleUpdate(app.UpdateWf), nil
+		return app.UpdateHandler, nil
 	}
 
 	if method == "DELETE" {
-		return HandleRemove(app.RemoveWf), nil
+		return app.RemoveHandler, nil
 	}
 
 	return nil, fmt.Errorf("httpMethod=%s not supported", r.Method)

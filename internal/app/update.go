@@ -30,9 +30,6 @@ type UpdateResponseDTO struct {
 	Version          int    `json:"version"`
 }
 
-// RemoveHandlerFunc returns an http handler for a customer remove API call
-type RemoveHandlerFunc func(wf workflow.RemoveFunc) http.HandlerFunc
-
 // UpdateHandlerFunc returns an http handler for a customer update API call
 type UpdateHandlerFunc func(wf workflow.UpdateFunc) http.HandlerFunc
 
