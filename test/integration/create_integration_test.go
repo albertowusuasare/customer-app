@@ -10,14 +10,13 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/albertowusuasare/customer-app/internal/api"
 	"github.com/albertowusuasare/customer-app/internal/app"
 	"github.com/albertowusuasare/customer-app/internal/validation"
 )
 
 func TestCreateResponse(t *testing.T) {
-	app := app.Inmem()
-	ts := httptest.NewServer(api.Handler(app))
+	inMemApp := app.Inmem()
+	ts := httptest.NewServer(app.Handler(inMemApp))
 	defer ts.Close()
 
 	requestBody, _ := ioutil.ReadFile("../data/create-request.json")
@@ -38,9 +37,9 @@ func TestCreateResponse(t *testing.T) {
 }
 
 func testExpectedResponse(t *testing.T, request []byte, response []byte) {
-	requestDTO := api.CreateRequestDTO{}
+	requestDTO := app.CreateRequestDTO{}
 	UnMarshal(request, &requestDTO)
-	responseDTO := api.CreateResponseDTO{}
+	responseDTO := app.CreateResponseDTO{}
 	UnMarshal(response, &responseDTO)
 
 	var responseFieldsTests = []struct {
@@ -111,8 +110,8 @@ type ValidationErrTestCase struct {
 }
 
 func TestCreateErrorResponse(t *testing.T) {
-	app := app.Inmem()
-	ts := httptest.NewServer(api.Handler(app))
+	inMemApp := app.Inmem()
+	ts := httptest.NewServer(app.Handler(inMemApp))
 	defer ts.Close()
 
 	testCases := validationErrorTestCases()
@@ -138,10 +137,10 @@ func TestCreateErrorResponse(t *testing.T) {
 
 			// assert error body response
 			responseBody, _ := ioutil.ReadAll(res.Body)
-			errorBody := api.Error{}
+			errorBody := app.Error{}
 			UnMarshal(responseBody, &errorBody)
 
-			expectedErrorBody := api.Error{}
+			expectedErrorBody := app.Error{}
 			expectedErrBodyFile, _ := ioutil.ReadFile(fmt.Sprintf("%s/%s", testDataRelativePath, tc.expectedResponseFile))
 			UnMarshal(expectedErrBodyFile, &expectedErrorBody)
 

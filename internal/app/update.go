@@ -1,4 +1,4 @@
-package api
+package app
 
 import (
 	"encoding/json"
@@ -29,6 +29,12 @@ type UpdateResponseDTO struct {
 	CreatedTime      string `json:"createdTime"`
 	Version          int    `json:"version"`
 }
+
+// RemoveHandlerFunc returns an http handler for a customer remove API call
+type RemoveHandlerFunc func(wf workflow.RemoveFunc) http.HandlerFunc
+
+// UpdateHandlerFunc returns an http handler for a customer update API call
+type UpdateHandlerFunc func(wf workflow.UpdateFunc) http.HandlerFunc
 
 // HandleUpdate returns an http handler for a customer update API call
 func HandleUpdate(wf workflow.UpdateFunc) http.HandlerFunc {

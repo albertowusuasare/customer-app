@@ -6,7 +6,6 @@ import (
 	"net/http"
 
 	"cloud.google.com/go/firestore"
-	"github.com/albertowusuasare/customer-app/internal/api"
 	"github.com/albertowusuasare/customer-app/internal/app"
 )
 
@@ -17,7 +16,7 @@ func Handle(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	app := app.GoogleApp(ctx, firestoreClient)
-	handler := api.Handler(app)
+	googleApp := app.GoogleApp(ctx, firestoreClient)
+	handler := app.Handler(googleApp)
 	handler.ServeHTTP(w, r)
 }

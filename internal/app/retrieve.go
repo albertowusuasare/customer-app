@@ -1,4 +1,4 @@
-package api
+package app
 
 import (
 	"encoding/json"
@@ -26,6 +26,12 @@ type CustomerRetrieveResponseDTO struct {
 type CustomerRetrieveErrorDTO struct {
 	Message string `json:"message"`
 }
+
+// RetriveOneHandlerFunc returns an http handler for a customer retrieve API call
+type RetriveOneHandlerFunc func(wf workflow.RetrieveSingleFunc) http.HandlerFunc
+
+// RetriveMultiHandlerFunc returns an http handler for a customer retrieve multi API call
+type RetriveMultiHandlerFunc func(wf workflow.RetrieveMultiFunc) http.HandlerFunc
 
 // HandleRetrieveOne returns an http handler for a customer retrieve API call
 func HandleRetrieveOne(wf workflow.RetrieveSingleFunc) http.HandlerFunc {
