@@ -6,7 +6,7 @@ INTEGRATION_TEST_PKGS := ./test/integration
 ARTIFACT_ID := customer-svc
 MAIN_PATH := ./cmd/$(ARTIFACT_ID)
 
-all: format lint build test
+all: format lint build test clean
 
 format:
 	@echo ">> Formatting project ..."
