@@ -1,4 +1,4 @@
-package api
+package app
 
 // Defaut application error messages
 const (

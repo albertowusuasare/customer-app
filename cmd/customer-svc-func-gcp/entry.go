@@ -6,8 +6,8 @@ import (
 	"net/http"
 
 	"cloud.google.com/go/firestore"
-	"github.com/albertowusuasare/customer-app/internal/api"
 	"github.com/albertowusuasare/customer-app/internal/app"
+	"github.com/albertowusuasare/customer-app/internal/app/google"
 )
 
 //Handle is the entry point for the cloud function
@@ -17,7 +17,7 @@ func Handle(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	app := app.GoogleApp(ctx, firestoreClient)
-	handler := api.Handler(app)
+	googleApp := google.App(ctx, firestoreClient)
+	handler := app.Handler(googleApp)
 	handler.ServeHTTP(w, r)
 }

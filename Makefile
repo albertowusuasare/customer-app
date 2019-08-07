@@ -3,7 +3,7 @@ PKGS :=  $(shell $(GO) list ./...)
 UNIT_TEST_PKGS := $(shell $(GO) list ./... | grep -v /test/integration)
 INTEGRATION_TEST_PKGS := ./test/integration
 
-ARTIFACT_ID := customer-svc
+ARTIFACT_ID := customer-svc-standalone-gcp
 MAIN_PATH := ./cmd/$(ARTIFACT_ID)
 
 all: format lint build test

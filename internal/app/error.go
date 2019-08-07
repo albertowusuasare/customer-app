@@ -1,4 +1,4 @@
-package api
+package app
 
 // ErrorCode is a machine friendly description of the error
 type ErrorCode string
