@@ -7,8 +7,8 @@ import (
 	"net/http"
 
 	"cloud.google.com/go/firestore"
-	"github.com/albertowusuasare/customer-app/internal/api"
 	"github.com/albertowusuasare/customer-app/internal/app"
+	"github.com/albertowusuasare/customer-app/internal/app/google"
 )
 
 func main() {
@@ -17,8 +17,8 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	app := app.GoogleApp(ctx, firestoreClient)
+	googleApp := google.App(ctx, firestoreClient)
 	port := ":5090"
 	log.Println(fmt.Sprintf("Starting server on port%s", port))
-	log.Fatal(http.ListenAndServe(port, api.Handler(app)))
+	log.Fatal(http.ListenAndServe(port, app.Handler(googleApp)))
 }

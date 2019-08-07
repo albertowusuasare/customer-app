@@ -1,4 +1,4 @@
-package api
+package app
 
 import (
 	"encoding/json"
@@ -29,6 +29,9 @@ type CreateResponseDTO struct {
 	PhoneNumber string `json:"phoneNumber"`
 	AccountID   string `json:"accountId"`
 }
+
+// CreateHandlerFunc returns an http handler for a customer create API call
+type CreateHandlerFunc func(wf workflow.CreateFunc) http.HandlerFunc
 
 // HandleCreate returns an http handler for the customer create API call
 func HandleCreate(wf workflow.CreateFunc) http.HandlerFunc {

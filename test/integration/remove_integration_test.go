@@ -8,14 +8,14 @@ import (
 	"net/http/httptest"
 	"testing"
 
-	"github.com/albertowusuasare/customer-app/internal/api"
 	"github.com/albertowusuasare/customer-app/internal/app"
+	"github.com/albertowusuasare/customer-app/internal/app/inmem"
 )
 
 func TestRemove(t *testing.T) {
 	// Initialize test server
-	app := app.Inmem()
-	ts := httptest.NewServer(api.Handler(app))
+	inMemApp := inmem.App()
+	ts := httptest.NewServer(app.Handler(inMemApp))
 
 	// Create customer
 	customer := CreateTestDataCustomer(ts)
@@ -60,7 +60,7 @@ func testCustomerDoesNotExist(customerID string, ts *httptest.Server, t *testing
 
 	t.Run("error_body_asertion", func(t *testing.T) {
 		b, _ := ioutil.ReadAll(res.Body)
-		errDTO := api.CustomerRetrieveErrorDTO{}
+		errDTO := app.CustomerRetrieveErrorDTO{}
 		UnMarshal(b, &errDTO)
 
 		e := fmt.Sprintf("No record exits for customerID=%s", customerID)
