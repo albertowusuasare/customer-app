@@ -12,10 +12,11 @@ import (
 	"time"
 
 	"github.com/albertowusuasare/customer-app/internal/app"
+	"github.com/albertowusuasare/customer-app/internal/app/inmem"
 )
 
 func TestUpdate(t *testing.T) {
-	inMemApp := app.Inmem()
+	inMemApp := inmem.App()
 	ts := httptest.NewServer(app.Handler(inMemApp))
 
 	// Seed customer

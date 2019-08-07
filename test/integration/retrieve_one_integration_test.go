@@ -7,10 +7,11 @@ import (
 	"testing"
 
 	"github.com/albertowusuasare/customer-app/internal/app"
+	"github.com/albertowusuasare/customer-app/internal/app/inmem"
 )
 
 func TestRetreiveOneAPI(t *testing.T) {
-	inmemApp := app.Inmem()
+	inmemApp := inmem.App()
 	ts := httptest.NewServer(app.Handler(inmemApp))
 	defer ts.Close()
 

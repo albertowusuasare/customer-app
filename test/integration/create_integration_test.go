@@ -11,11 +11,12 @@ import (
 	"testing"
 
 	"github.com/albertowusuasare/customer-app/internal/app"
+	"github.com/albertowusuasare/customer-app/internal/app/inmem"
 	"github.com/albertowusuasare/customer-app/internal/validation"
 )
 
 func TestCreateResponse(t *testing.T) {
-	inMemApp := app.Inmem()
+	inMemApp := inmem.App()
 	ts := httptest.NewServer(app.Handler(inMemApp))
 	defer ts.Close()
 
@@ -110,7 +111,7 @@ type ValidationErrTestCase struct {
 }
 
 func TestCreateErrorResponse(t *testing.T) {
-	inMemApp := app.Inmem()
+	inMemApp := inmem.App()
 	ts := httptest.NewServer(app.Handler(inMemApp))
 	defer ts.Close()
 
