@@ -32,7 +32,7 @@ func Handler(app StandAlone) http.Handler {
 	r.Handler(http.MethodGet, "/customers", app.RetrieveMultiHandler)
 	r.Handler(http.MethodPut, "/customers/:customerId", app.UpdateHandler)
 	r.Handler(http.MethodDelete, "/customers/:customerId", app.RemoveHandler)
-	return r
+	return HTTPRequestLoggingFilter(func() http.Handler { return r })
 }
 
 // RetrieveCustomerID retrieves the customerID from an http request
