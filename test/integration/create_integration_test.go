@@ -10,8 +10,8 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/albertowusuasare/customer-app/internal/app"
-	"github.com/albertowusuasare/customer-app/internal/app/inmem"
+	"github.com/albertowusuasare/customer-app/app"
+	"github.com/albertowusuasare/customer-app/app/inmem"
 	"github.com/albertowusuasare/customer-app/internal/validation"
 )
 

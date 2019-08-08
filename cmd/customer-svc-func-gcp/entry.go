@@ -6,8 +6,8 @@ import (
 	"net/http"
 
 	"cloud.google.com/go/firestore"
-	"github.com/albertowusuasare/customer-app/internal/app"
-	"github.com/albertowusuasare/customer-app/internal/app/google"
+	"github.com/albertowusuasare/customer-app/app"
+	"github.com/albertowusuasare/customer-app/app/google"
 )
 
 //Handle is the entry point for the cloud function
