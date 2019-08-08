@@ -5,8 +5,8 @@ import (
 	"net/http"
 
 	"cloud.google.com/go/firestore"
+	"github.com/albertowusuasare/customer-app/app"
 	"github.com/albertowusuasare/customer-app/internal/adding"
-	"github.com/albertowusuasare/customer-app/internal/app"
 	queue "github.com/albertowusuasare/customer-app/internal/msg/inmem"
 	"github.com/albertowusuasare/customer-app/internal/storage/google"
 	"github.com/albertowusuasare/customer-app/internal/uuid"

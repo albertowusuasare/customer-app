@@ -11,8 +11,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/albertowusuasare/customer-app/internal/app"
-	"github.com/albertowusuasare/customer-app/internal/app/inmem"
+	"github.com/albertowusuasare/customer-app/app"
+	"github.com/albertowusuasare/customer-app/app/inmem"
 )
 
 func TestUpdate(t *testing.T) {
