@@ -2,7 +2,6 @@
 
 function UpdateManifest(){
     set -e
-    HOME=$1
     MANIFEST_HOME=manifest
     SOURCE_VERSION=$1
     mkdir $MANIFEST_HOME
@@ -14,7 +13,7 @@ function UpdateManifest(){
     git add deploy.sh
     git commit -m "Source version update to $SOURCE_VERSION"
     git push origin head
-    cd $HOME
+    cd ..
     rm -rf $MANIFEST_HOME
 }
 
