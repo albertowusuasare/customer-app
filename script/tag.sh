@@ -1,4 +1,5 @@
 #!/bin/sh
+set -e
 echo "Downloading semver ..."
 npm install -g semver
 LATEST_VERSION=$(git describe --abbrev=0)

@@ -1,4 +1,6 @@
 #!/bin/sh
+set -e
 export GO111MODULE=on
-go mod init $MOD_PKG_NAME
+PKG_NAME=$1 # PKG_NAME is the first CLI arg
+go mod init $PKG_NAME
 go mod tidy 
