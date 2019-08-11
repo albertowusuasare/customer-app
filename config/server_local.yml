@@ -1,5 +1,0 @@
-port: 5090
-db:
-  url: mongodb://mongodb0.example.com:27017/admin
-kafka:
-  bootstrap-servers: localhost:9092,another.host:9092
