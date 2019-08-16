@@ -1,0 +1,7 @@
+steps:
+- name: 'gcr.io/onua-246719/lint'
+  id: 'lint'
+- name: 'gcr.io/cloud-builders/go'
+  args: ['test', '-v', './...']
+  id: 'test'
+  env: ['GO111MODULE=on', 'PROJECT_ROOT=customer-app']  

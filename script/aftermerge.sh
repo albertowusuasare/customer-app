@@ -10,13 +10,6 @@ HOME=$SRC_ROOT/build_$LATEST_COMMIT
 LATEST_COMMIT=$(git describe --abbrev=0)
 HOME=$SRC_ROOT/build_$LATEST_COMMIT
 
-## Perfom tests
-echo ">>> Performing sanity checks ..."
-cd $SRC_ROOT
-make lint
-make unit-test
-make int-test
-
 ## Increment semantic version
 echo ">>> Updating semantic version ..."
 IncrementMinor
